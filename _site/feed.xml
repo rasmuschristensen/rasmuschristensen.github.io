@@ -5,9 +5,41 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://brianmaierjr.github.com/long-haul/</link>
     <atom:link href="http://brianmaierjr.github.com/long-haul/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Oct 2015 22:41:35 +0100</pubDate>
-    <lastBuildDate>Thu, 29 Oct 2015 22:41:35 +0100</lastBuildDate>
+    <pubDate>Sun, 22 Nov 2015 21:58:39 +0100</pubDate>
+    <lastBuildDate>Sun, 22 Nov 2015 21:58:39 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      
+      <item>
+        <title>Namespaces in Xamarin Studio</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;I&lt;/span&gt;f you like me have a background using Visual Studio, one of the first things you&#39;ll notice after a little
+coding in Xamarin Studio is the default namespace handling. In Visual Studio namespaces per default follows the folder structure.
+In Xamarin Studio is&#39;s just the oppesit, a flat namespace stucture.
+&lt;/p&gt;
+
+&lt;p&gt;To get the same behaviour in Xamarin Studio as in Visual Studio, goto 
+&lt;strong&gt;Preferences -&amp;gt; Source Code -&amp;gt; .NET Naming Policies&lt;/strong&gt;. and select &lt;strong&gt;Hierarchical&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/xamarinnamespaces.png&quot; alt=&quot;xamarin studio&quot;&gt; &lt;/p&gt;
+
+&lt;p&gt;Please note this is best done on a new project. If not, you have to manually ensure all namespaces are set correctly.&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;I&lt;/span&gt;f you like me have a background using Visual Studio, one of the first things you&#39;ll notice after a little
+coding in Xamarin Studio is the default namespace handling. In Visual Studio namespaces per default follows the folder structure.
+In Xamarin Studio is&#39;s just the oppesit, a flat namespace stucture.
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Tue, 24 Nov 2015 00:00:00 +0100</pubDate>
+        <link>http://brianmaierjr.github.com/long-haul/blog/Namespaces%20in%20Xamarin%20Studio/</link>
+        <guid isPermaLink="true">http://brianmaierjr.github.com/long-haul/blog/Namespaces%20in%20Xamarin%20Studio/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
