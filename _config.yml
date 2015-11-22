@@ -13,15 +13,12 @@ paginate: 5
 navigation:
  - title: Home
    url: /index.html
- - title: About
-   url: /about
- - title: Contact
-   url: /contact
+
 
 social:
    github: rasmuschristensen
-   twitter: rasmustchr
-   facebook: brianmaierjr
+   twitter: rasmustchristens
+   facebook: 
    email: rasmus@bypassion.dk
 
 google_analytics: "UA-11602260-2"
