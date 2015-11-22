@@ -13,6 +13,8 @@ paginate: 5
 navigation:
  - title: Home
    url: /index.html
+ - title: Consulting
+   url: http://bypassion.dk
 
 
 social:
