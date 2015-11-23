@@ -5,9 +5,64 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://brianmaierjr.github.com/long-haul/</link>
     <atom:link href="http://brianmaierjr.github.com/long-haul/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 22 Nov 2015 23:48:27 +0100</pubDate>
-    <lastBuildDate>Sun, 22 Nov 2015 23:48:27 +0100</lastBuildDate>
+    <pubDate>Mon, 23 Nov 2015 21:54:45 +0100</pubDate>
+    <lastBuildDate>Mon, 23 Nov 2015 21:54:45 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      
+      <item>
+        <title>Compile XAML with Xamarin</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;O&lt;/span&gt;ne of the new features in Xamarin 4 and Xamarin Forms 2.0 is the ability to compile Xaml views.
+ This feature should reduce view load time, the compiled app size, the catch might be an increase in compilation time, so let&#39;s see how
+ this works.
+&lt;/p&gt;
+
+&lt;h2&gt;Xaml runtime error&lt;/h2&gt;
+
+&lt;p&gt;First we created a basic Xamarin cross platform project based on Xamarin Forms. Ensure to update the Xamarin.Forms nuget packages to version 2.x.
+Add a Xaml view to the project with a simple Button control and two properties Id and Text (...Yes the Id is not valid, let&amp;#39;s verify it.)
+&lt;img src=&quot;/assets/img/InvalidXaml.png&quot; alt=&quot;xamarin invalid attr&quot;&gt;
+Before Xamarin Forms 2.0 this would compile just fine, and if we didn&amp;#39;t do anything to the current project in Xamarin 2.0, compilation will also complete without any errors.
+If we start the app either in the simulator or on a device, we would get a runtime error.
+&lt;img src=&quot;/assets/img/xamlruntimeerror.png&quot; alt=&quot;xamarin runtime error&quot;&gt;&lt;br&gt;
+As expected the &amp;quot;Id&amp;quot; property is invalid. 
+As this is a very simple example, this could however be something deep inside our app and not that easy to locate.&lt;/p&gt;
+
+&lt;h2&gt;Enabling Xaml Compilation&lt;/h2&gt;
+
+&lt;p&gt;The new feature to enable the XamlC, Xaml Compiler - can be enabled at either assembly level or class level or in a mix of both. It&amp;#39;s located in the namespace
+&lt;strong&gt;Xamarin.Forms.Xaml&lt;/strong&gt;. 
+Locate the App class and above the namespace definition, add the following codesnippet.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Xamarin.Forms.Xaml&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;[assembly: XamlCompilation (XamlCompilationOptions.Compile)]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Build the project again and now the code won&amp;#39;t compile, with the following error, but luckily this time, we caught it during compilation.
+&lt;img src=&quot;/assets/img/compileerror.png&quot; alt=&quot;xamarin compile error&quot;&gt;
+It&amp;#39;s also possible to add Xaml compilation to a specific view, simply by added the same attribute as before without &lt;strong&gt;assembly:&lt;/strong&gt; to at the class level of a view.
+The result is the same as before, except this time Xaml compilation is only enabled for a specific view.
+&lt;img src=&quot;/assets/img/xamlcompilationclass.png&quot; alt=&quot;xamarin compile error&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally it&amp;#39;s possible to either add and mix multiple class level Xaml compilations or if you enabled it at assembly level, you can exclude it for specific viewsby selecting
+&lt;strong&gt;.Skip&lt;/strong&gt; instead of &lt;strong&gt;.Compile&lt;/strong&gt; at class level
+ &lt;img src=&quot;/assets/img/xamlcompileskip.png&quot; alt=&quot;xamarin compile skip&quot;&gt;&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;O&lt;/span&gt;ne of the new features in Xamarin 4 and Xamarin Forms 2.0 is the ability to compile Xaml views.
+ This feature should reduce view load time, the compiled app size, the catch might be an increase in compilation time, so let&#39;s see how
+ this works.
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Wed, 25 Nov 2015 00:00:00 +0100</pubDate>
+        <link>http://brianmaierjr.github.com/long-haul/blog/compiled-xaml-views/</link>
+        <guid isPermaLink="true">http://brianmaierjr.github.com/long-haul/blog/compiled-xaml-views/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
