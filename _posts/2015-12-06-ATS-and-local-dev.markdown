@@ -40,6 +40,10 @@ Add the entry __NSAppTransportSecurity__
 		<true/>
 	</dict>
 {% endhighlight %}
+
+Afterwards your infp.plist will should look like this
+<img src="{{ '/assets/img/infoplistchange.png' | prepend: site.baseurl }}" alt="info plist change"> 
+
 This will enable you to switch ATS on/off. Now turn it off and run the same code as before. This time you'll be able to consume the API without being blocked by 
 the lack of insecure communication.
 
