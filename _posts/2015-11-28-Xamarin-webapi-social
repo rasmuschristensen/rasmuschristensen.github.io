@@ -1,0 +1,8 @@
+component not nuget Xamarin-Auth
+
+external endpoint not /Token
+
+ATS, by default - disable for dev
+https://developer.xamarin.com/guides/ios/platform_features/introduction_to_ios9/ats/
+make change in source view of info.plist
+

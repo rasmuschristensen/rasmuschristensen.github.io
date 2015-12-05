@@ -3,11 +3,71 @@
   <channel>
     <title>Rasmus Tolstrup Christensen</title>
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
-    <link>http://brianmaierjr.github.com/long-haul/</link>
-    <atom:link href="http://brianmaierjr.github.com/long-haul/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 23 Nov 2015 21:54:45 +0100</pubDate>
-    <lastBuildDate>Mon, 23 Nov 2015 21:54:45 +0100</lastBuildDate>
+    <link>http://rasmustc.com/</link>
+    <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 05 Dec 2015 22:41:14 +0100</pubDate>
+    <lastBuildDate>Sat, 05 Dec 2015 22:41:14 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      
+      <item>
+        <title>ATS and local development with Xamarin</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt;fter working with Xamarin for a while, one of the things I spent a lot of time on, was how to cosume an API running on Windows and hosted in VmWare Fusion from
+a mobile Xamarin client running in either simulator or on a device.
+&lt;/p&gt;
+
+&lt;p&gt;As a .NET developer, my primary development IDE has been Visual Studio for many years. When I started doing Xamarin development, I went with 
+Xamarin Studio, primarily because of the licensesing cost, but also to challenge myself with OSX and Xamarin Studio.
+Based on this setup I&amp;#39;m hosting windows in a virtual machine using Vmware Fusion, with Visual Studio. And most of the time this will be where my mobile backend will be running during development.&lt;/p&gt;
+
+&lt;h2&gt;Consuming a windows hosted API from OSX&lt;/h2&gt;
+
+&lt;p&gt;The basic key to consume a window hosted API from OSX is the network setup. With VmWare Fusion, It&amp;#39;s pretty easy, using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Bridging_(networking)&quot;&gt; network bridge&lt;/a&gt;.
+From VmWare select &lt;strong&gt;Virtual Machine&lt;/strong&gt; -&amp;gt; &lt;strong&gt;Settings&lt;/strong&gt; -&amp;gt; &lt;strong&gt;Network Adapter&lt;/strong&gt;
+&lt;img src=&quot;/assets/img/bridgenetwork.png&quot; alt=&quot;Bridge network&quot;&gt; 
+Inside this menu select &lt;strong&gt;Bridged Networking&lt;/strong&gt; and the &lt;strong&gt;Wi-fi&lt;/strong&gt; option. With this enabled it&amp;#39;s now possible to consume a VmWare Fusion hosted Windows WebAPI from Xamarin running the client   on OSX.&lt;/p&gt;
+
+&lt;h2&gt;Http for local dev...the ATS issue on IOS&lt;/h2&gt;
+
+&lt;p&gt;While it&amp;#39;s pretty easy to make the network bridge between OSX and Windows, the next bump on the road during development is &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33&quot;&gt;Application Transport Security&lt;/a&gt;, (ATS - NSAppTransportSecurity).
+Since IOS 9.0, Apple by default requre all communication to be secure, meaning https. As all projects starts small, this would be a bit of pain, and luckily there is an option to avoid this while developing on your local machine.&lt;/p&gt;
+
+&lt;p&gt;If you run a vanilla Xamarin Forms project and try to consume a Windows API as described above, you&amp;#39;ll get this message,
+but only if you taget IOS 9.0 or above.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/iosATS.png&quot; alt=&quot;IOS ATS&quot;&gt; &lt;/p&gt;
+
+&lt;h2&gt;Optional ATS using info.plist&lt;/h2&gt;
+
+&lt;p&gt;To workaround this issue during local development (in production you should always use secure communication) you can add a new entry to the info.plist
+in the Xmarin.ios project in your solution.
+Locate the file and select the &lt;strong&gt;source&lt;/strong&gt; tab in the bottom of the file. Add a new entry to the file, either directly in Xamarin Studio, or in another text editor, this is just a plain xml file.
+Add the entry &lt;strong&gt;NSAppTransportSecurity&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSAppTransportSecurity&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSAllowsArbitraryLoads&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will enable you to switch ATS on/off. Now turn it off and run the same code as before. This time you&amp;#39;ll be able to consume the API without being blocked by 
+the lack of insecure communication.&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt;fter working with Xamarin for a while, one of the things I spent a lot of time on, was how to cosume an API running on Windows and hosted in VmWare Fusion from
+a mobile Xamarin client running in either simulator or on a device.
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 06 Dec 2015 00:00:00 +0100</pubDate>
+        <link>http://rasmustc.com/blog/ATS-and-local-dev/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/ATS-and-local-dev/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
@@ -57,8 +117,8 @@ The result is the same as before, except this time Xaml compilation is only enab
 </description>
         
         <pubDate>Wed, 25 Nov 2015 00:00:00 +0100</pubDate>
-        <link>http://brianmaierjr.github.com/long-haul/blog/compiled-xaml-views/</link>
-        <guid isPermaLink="true">http://brianmaierjr.github.com/long-haul/blog/compiled-xaml-views/</guid>
+        <link>http://rasmustc.com/blog/compiled-xaml-views/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/compiled-xaml-views/</guid>
         
         
       </item>
@@ -89,8 +149,8 @@ In Xamarin Studio is&#39;s just the opposite, a flat namespace stucture.
 </description>
         
         <pubDate>Tue, 24 Nov 2015 00:00:00 +0100</pubDate>
-        <link>http://brianmaierjr.github.com/long-haul/blog/namespaces-in-xamarin-studio/</link>
-        <guid isPermaLink="true">http://brianmaierjr.github.com/long-haul/blog/namespaces-in-xamarin-studio/</guid>
+        <link>http://rasmustc.com/blog/namespaces-in-xamarin-studio/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/namespaces-in-xamarin-studio/</guid>
         
         
       </item>
