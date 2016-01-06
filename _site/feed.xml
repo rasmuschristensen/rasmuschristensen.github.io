@@ -5,28 +5,27 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 04 Jan 2016 23:21:14 +0100</pubDate>
-    <lastBuildDate>Mon, 04 Jan 2016 23:21:14 +0100</lastBuildDate>
+    <pubDate>Wed, 06 Jan 2016 15:09:13 +0100</pubDate>
+    <lastBuildDate>Wed, 06 Jan 2016 15:09:13 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
       <item>
-        <title>Explicit Facebook Auth with Xamarin Forms and WebAPI CustomGrant part 1</title>
+        <title>Facebook Auth with Xamarin Forms and WebAPI CustomGrant - part 1</title>
         <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;S&lt;/span&gt;ocial authention with providers is always a standard in many mobile applications today. A lot of authentication is provided either 
-directly from the mobile app itself or by an API. In this blog post I&#39;ll show how to do explicit authentication with Facebook in an app built with Xamarin and ASPNET WebAPI to enable token based authentication.
+&lt;span class=&quot;dropcap&quot;&gt;S&lt;/span&gt;ocial authention with providers is almost a standard in many of todays mobile apps. A lot of authentication is provided either 
+directly from the mobile app itself or by an API. In this blog post I&#39;ll show how to do explicit authentication with Facebook in an app built with Xamarin and ASPNET WebAPI, to enable bearer token based authentication.
 Part 1 will focus on the app and part 2 will focus on the API.
 &lt;/p&gt;
 
 &lt;h3&gt;A little background&lt;/h3&gt;
 
-&lt;p&gt;Some applications have only the client itself and no backend. I often build apps where the client is supported by a backend API. My preferred API solution is based on ASPNET WebAPI.
+&lt;p&gt;Some applications have only the client itself and no backend. I often build apps where the client is supported by a backend API. My preferred API technology is ASPNET WebAPI.
 When it comes to authentitation with social providers, you&amp;#39;ll often find a lot about how the WebAPI can be setup to support clients like Facebook, Twitter etc. Often by redirecting the client
-to some login page. While this is often fine and also for web applications, there are other solutions and also very simple solutions.
-I&amp;#39;ve worked with both ThinkTecture IdentityServer and WebAPI, but inspired by a lot of reading on &lt;a href=&quot;http://bitoftech.net&quot;&gt;BitOfTech&lt;/a&gt; I learned a lot more
-of how to use WebAPI. With a background developing Single Page Web Applications using tokens, I got a lot of inspiration from this &lt;a href=&quot;http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/&quot;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;When it comes to mobile applications, token based authentiation is also a great fit.&lt;/p&gt;
+to some login page hosted by the API. While this is often fine and also for web applications, there are other solutions and also very simple solutions to support your own authentication/registration flow.
+I&amp;#39;ve worked with both ThinkTecture IdentityServer and ASPNET WebAPI, but inspired by a lot of reading on &lt;a href=&quot;http://bitoftech.net&quot;&gt;BitOfTech&lt;/a&gt;, I learned a lot more
+of how to use WebAPI. With a background developing Single Page Applications with AngularJS, I got a lot of inspiration from especially this series &lt;a href=&quot;http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/&quot;&gt;blog post&lt;/a&gt;.
+Just like Single Page Web applications, token based authentication is a perfect fit for mobile applications.&lt;/p&gt;
 
 &lt;h3&gt;The mission&lt;/h3&gt;
 
@@ -37,18 +36,82 @@ of how to use WebAPI. With a background developing Single Page Web Applications 
 
 &lt;p&gt;First we need an app where we can authenticate with Facebook. The app will request Facebook for a loginpage provided by Facebook.
  This requires the app to be registered inside the &lt;a href=&quot;https://developers.facebook.com/&quot;&gt;Facebook Developer Portal&lt;/a&gt;. We just need to register it as a simple 
- webapp with a OAuth redirect URIs to be used when authentication succeeds. When your app is registered, you&amp;#39;ll end up with a &lt;strong&gt;ClientId&lt;/strong&gt;,&lt;strong&gt;ClientSecret&lt;/strong&gt; and a OAuth redirect URIs. The latter needs to be a valid
- endpoint to the API.&lt;/p&gt;
+ web application with a valid  &lt;strong&gt;OAuth redirect URIs&lt;/strong&gt; to be used when authentication succeeds. When your app is registered, you&amp;#39;ll end up with a &lt;strong&gt;ClientId&lt;/strong&gt;,&lt;strong&gt;ClientSecret&lt;/strong&gt; and a &lt;strong&gt;OAuth redirect URIs&lt;/strong&gt;. The latter needs to be a valid
+ endpoint to the API we&amp;#39;ll be creating in part 2.&lt;/p&gt;
 
-&lt;h3&gt;Build the app&lt;/h3&gt;
+&lt;h3&gt;Building the app&lt;/h3&gt;
 
-&lt;p&gt;The app will be created using Xamarin Forms. During this post we&amp;#39;ll only focus on the authentication, making a simple app that will redirect to authentication as soon as it starts.
-Because we&amp;#39;re using Xamarin Forms we&amp;#39;ll create a &lt;strong&gt;CustomRenderer&lt;/strong&gt; for each platform. &lt;/p&gt;
+&lt;p&gt;The app will be created using Xamarin Forms. During this post we&amp;#39;ll only focus on the authentication, making a simple app that will redirect to authentication as soon as it starts. I a realworld application you might want to check settings
+to see if the user already did sign in.
+Because we&amp;#39;re using Xamarin Forms we&amp;#39;ll create a &lt;strong&gt;CustomRenderer&lt;/strong&gt; for each platform IOS/Android. The PageRenderer for IOS is displayed here and the source is available from &lt;a href=&quot;https://github.com/rasmuschristensen/SimpleOAuth&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ViewDidAppear&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ViewDidAppear&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;OAuth2Authenticator&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+              
+    &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuth2Authenticator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;clientId&lt;/span&gt;      &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;1519399498360864&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;authorizeUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Uri&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://www.facebook.com/dialog/oauth&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;redirectUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Uri&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://windows:8080/login_success.html&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// we do this to be able to control the cancel flow outself...&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AllowCancel&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Completed&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsAuthenticated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;access&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Account&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Properties&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+            &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpClient&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModernHttpClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NativeMessageHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+
+            &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FormUrlEncodedContent&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyValuePair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;accesstoken&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;access&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyValuePair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;provider&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;facebook&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+
+            &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;authenticateResponse&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostAsync&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Uri&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://windows:8080/api/authentication/Login&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authenticateResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsSuccessStatusCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+                &lt;span class=&quot;c1&quot;&gt;//get api access bearer token from api&lt;/span&gt;
+                &lt;span class=&quot;c1&quot;&gt;// store user is logged in, request additional info...&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+            &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PresentMain&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;           
+        
+    &lt;span class=&quot;n&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetUI&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddChildViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Add&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// add out custom cancel button, to be able to navigate back&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ChildViewControllers&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NavigationItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LeftBarButtonItem&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIBarButtonItem&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;UIBarButtonSystemItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cancel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MainPage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Navigation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PopModalAsync&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+ 
+
+&lt;p&gt;The code above is very explicit, all the auth settings might be stored inside app settings, but in this sample app we don&amp;#39;t hide anything. The clientId is the FaceBook clientId we got earlier when we registered the app on facebook
+ It&amp;#39;s important that the &lt;strong&gt;redirectUrl&lt;/strong&gt; matches the one also registered on facebook as &lt;strong&gt;OAuth redirect URIs&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;If everything is setup and the above app is started in either emulator or device, the app should start and immediately redirect to a webview with the facebook login page. This happens because we create the OAuth2Authenticator by using the 
+Xamarin.Auth component and make a request to FaceBook OAuth Url. When you enter your username and password for Facebook, the &lt;strong&gt;Completed&lt;/strong&gt; event will be fired and we&amp;#39;ll get a status of authenticated or Unauthenticated. Here we expect it to authenticated.
+Authenticated also means we&amp;#39;ll receive the users facebook access token inside the event arguments, which we&amp;#39;ll use to register/signup in our own backend. Before we finally accept the user as being fully authenticated we need to register with the API. As shown above, we do this by making a simple http POST request to our API &lt;em&gt;(This API will be created in part 2, for now we just expect it to be there)&lt;/em&gt;. Finally when we get the api access token of type bearer from the API request and we are now ready to proceed with our app.&lt;/p&gt;
+
+&lt;p&gt;Source code is available on &lt;a href=&quot;https://github.com/rasmuschristensen/SimpleOAuth&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 </description>
         
           <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;S&lt;/span&gt;ocial authention with providers is always a standard in many mobile applications today. A lot of authentication is provided either 
-directly from the mobile app itself or by an API. In this blog post I&#39;ll show how to do explicit authentication with Facebook in an app built with Xamarin and ASPNET WebAPI to enable token based authentication.
+&lt;span class=&quot;dropcap&quot;&gt;S&lt;/span&gt;ocial authention with providers is almost a standard in many of todays mobile apps. A lot of authentication is provided either 
+directly from the mobile app itself or by an API. In this blog post I&#39;ll show how to do explicit authentication with Facebook in an app built with Xamarin and ASPNET WebAPI, to enable bearer token based authentication.
 Part 1 will focus on the app and part 2 will focus on the API.
 &lt;/p&gt;
 </description>
@@ -56,96 +119,6 @@ Part 1 will focus on the app and part 2 will focus on the API.
         <pubDate>Mon, 04 Jan 2016 00:00:00 +0100</pubDate>
         <link>http://rasmustc.com/blog/Custom-Facebook-Authentication-with-webapi/</link>
         <guid isPermaLink="true">http://rasmustc.com/blog/Custom-Facebook-Authentication-with-webapi/</guid>
-        
-        
-      </item>
-      
-    
-      
-      <item>
-        <title>Consume an IISExpress hosted WebAPI from OSX</title>
-        <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;D&lt;/span&gt;eveloping a mobile application with Xamarin on OSX consuming a WebAPI hosted on windows, can be a bit complicated if you want to run everything local and keep things as simple
-as possible. The goal of this post is a step by step to consume an IISExpress hosted WebAPI running in a VMWare Fusion virtual machine with Windows 10 from OSX. Most of the steps should be similar if you are running
- Parallels instead of VMWare Fusion. 
-&lt;/p&gt;
-
-&lt;p&gt;When running a basic WebAPI locally, the default setup in Visual Studio is to use IIS Express, you can use Local IIS but my goal is to use IIS Express to keep things as simple as possible.&lt;/p&gt;
-
-&lt;h2&gt;Creating the API in Windows&lt;/h2&gt;
-
-&lt;p&gt;Creating the WebAPI is out of scope for this post, but basically follows the description &lt;a href=&quot;http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api&quot;&gt;here&lt;/a&gt;. 
-Whether you want to use OWIN is not important, but I would recommend it. Ensure you have a simple controller &lt;strong&gt;ValuesController&lt;/strong&gt; with no authentication applied and a single action to consume a value.
-For the purpose of this post we just need the action to return a simple value. &lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ValuesController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ApiController&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;    [HttpGet]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Press F5 to ensure the API can run and try to consume the value using POSTMAN chromeextension e.g.
-We are still on the windows host and should get the following result based on the request.
-&lt;img src=&quot;/assets/img/consume_api.png&quot; alt=&quot;consumeapi&quot;&gt;&lt;/p&gt;
-
-&lt;h2&gt;Bridge mode network&lt;/h2&gt;
-
-&lt;p&gt;The first step to allow access is to ensure the virtual machine is running with network in bridge mode. For VMWare Fusion I&amp;#39;ve written about it here
-&lt;a href=&quot;http://rasmustc.com/blog/ATS-and-local-dev/&quot;&gt;ATS and local dev&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2&gt;Expose the URL of the API&lt;/h2&gt;
-
-&lt;p&gt;To allow an incoming request to the host to be directed to IISExpress, execute the following command &lt;strong&gt;ipconfig&lt;/strong&gt; from powershell running as administrator to get your current ip
-&lt;img src=&quot;/assets/img/getipv4.png&quot; alt=&quot;get ip&quot;&gt;
-With the IP in hand, execute the following command&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span class=&quot;n&quot;&gt;netsh&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlacl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;192&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;168&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;234&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;1586&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;everyone&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;A small note to executing the command specified above. The &lt;strong&gt;user&lt;/strong&gt; part must be localized according to your current windows settings or else you&amp;#39;ll get an error. You could also use your computername instead of ip.&lt;/p&gt;
-
-&lt;h2&gt;Add a binding to IISExpress&lt;/h2&gt;
-
-&lt;p&gt;To ensure our API is resolved when we make a request and the &lt;em&gt;API is running&lt;/em&gt;, we need to add an additional binding to the API projects applicationhost.config file. This file is located at:
-&lt;strong&gt;PathToYourProject\.vs\config\applicationhost.config&lt;/strong&gt;. Edit the file and locate the &lt;strong&gt;&amp;lt;Bindings&amp;gt;&lt;/strong&gt; section under your projectname. My config looks like the configuration below where I&amp;#39;ve added both a specific binding to my IP on port 1586
-and a binding to the computername &lt;strong&gt;windows&lt;/strong&gt; on port 8080. Remember to specify different port numbers or else the API will fail during startup.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;site&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;ExposeAPI&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;application&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;applicationPool=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Clr4IntegratedAppPool&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;virtualDirectory&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;physicalPath=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;C:\dev\exposeapi&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/application&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;bindings&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;binding&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;protocol=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;bindingInformation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;*:1585:localhost&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;binding&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;protocol=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;bindingInformation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;*:1586:192.168.1.234&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;binding&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;protocol=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;bindingInformation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;*:8080:windows&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/bindings&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/site&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2&gt;Firewall private access rule&lt;/h2&gt;
-
-&lt;p&gt;The last thing to configure is the firewall. Be sure to only configure a rule for your private network. You can either use the graphical firewall client on windows and specify the path to IISExpress.
-Or use this command from Powershell. Note the portnumber at the end os the command.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span class=&quot;n&quot;&gt;netsh&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;advfirewall&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firewall&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rule&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;IISExpressWeb&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;allow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;localport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;8080&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2&gt;Making a request from OSX&lt;/h2&gt;
-
-&lt;p&gt;Finally it&amp;#39;s time to test the API from OSX. As with windows I&amp;#39;m using POSTMAN to test the API. Testing the command this way would result in the same as consuming the API from a mobile client using httpclient
-&lt;img src=&quot;/assets/img/osx2win.png&quot; alt=&quot;osx2win&quot;&gt;&lt;/p&gt;
-</description>
-        
-          <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;D&lt;/span&gt;eveloping a mobile application with Xamarin on OSX consuming a WebAPI hosted on windows, can be a bit complicated if you want to run everything local and keep things as simple
-as possible. The goal of this post is a step by step to consume an IISExpress hosted WebAPI running in a VMWare Fusion virtual machine with Windows 10 from OSX. Most of the steps should be similar if you are running
- Parallels instead of VMWare Fusion. 
-&lt;/p&gt;
-</description>
-        
-        <pubDate>Sun, 03 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://rasmustc.com/blog/Consume-IISExpress-WebAPI-from-OSX.1/</link>
-        <guid isPermaLink="true">http://rasmustc.com/blog/Consume-IISExpress-WebAPI-from-OSX.1/</guid>
         
         
       </item>
