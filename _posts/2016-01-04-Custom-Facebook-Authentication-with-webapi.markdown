@@ -63,7 +63,7 @@ public override void ViewDidAppear (bool animated)
             });
 
 
-            var authenticateResponse = await client.PostAsync (new Uri ("http://windows:8080/api/authentication/Login"), content);
+            var authenticateResponse = await client.PostAsync (new Uri ("http://windows:8080/Token"), content);
 
 
             if (authenticateResponse.IsSuccessStatusCode) {
