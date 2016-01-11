@@ -59,7 +59,7 @@ public override void ViewDidAppear (bool animated)
 
             var content = new FormUrlEncodedContent (new[] {
                 new KeyValuePair<string, string> ("accesstoken", access),
-                new KeyValuePair<string, string> ("provider", "facebook")
+                new KeyValuePair<string, string> ("grant_type", "facebook")
             });
 
 
