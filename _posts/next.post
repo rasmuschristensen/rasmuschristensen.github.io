@@ -1,0 +1,57 @@
+
+
+
+
+Create a simple xamarin project
+
+commit/push
+
+
+add build definition....Xamarion.ios
+use git and master branch
+select continuous integration to build on each checkin
+Add a build agent - no default hosted does support ios
+
+Download agent - CROSS PLATFORM BUILD AGENT - xplat agent from npm
+https://www.npmjs.com/package/vsoagent-installer
+https://www.youtube.com/watch?v=_snVbL39kyU&feature=youtu.be (video instructions, same as the webpage)
+
+
+hockey app.
+Add extensio to vsts
+add step to build definition
+
+enable IPA on project
+
+what is force basic?? 
+access token - remember to copy 76zhdqg3jo5wg42v2jcabolfpbetugyz5adqqiv4oqptsjm2fmma
+
+
+
+
+vsoagent-installer (the step where the agent is installed)
+
+remember to add the user to agent pool administrators and agent pool service accounts
+
+Test build i working in VSTS
+
+
+
+Get a local agent
+
+-build remote
+
+-build onpremise
+
+-add test unittest for now, later it could be ui tests, might require a screen on the local build agent
+ 
+
+
+ ---later
+ running ui tests
+ using external git host
+
+Source code is available on [GitHub](https://github.com/rasmuschristensen/SimpleOAuth)
+
+ 
+ 
