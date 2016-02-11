@@ -60,7 +60,7 @@ On the final page we select GIT as version control, the project we want to build
 Ensure you select the non hosted build agent. I installed my agent as the default. If you need to make any changes, just click __Manage__.
 The most important part of this page is to check the __Continuous Integration__ checkbox. Save the template and return to code__</>__
 
-<img src="{{ '/assets/img/ciTemplate.png' | prepend: site.baseurl }}" alt="CI template">
+<img src="{{ '/assets/img/CITemplate.png' | prepend: site.baseurl }}" alt="CI template">
   
 ### Verify CI is running.
 In Xamarin Studio we make a change the source code, __add__, __commit__ and __push__... wait a bit and then watch the terminal running your build agent. You should soon see
