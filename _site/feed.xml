@@ -5,9 +5,93 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 22 Jan 2016 13:14:09 +0100</pubDate>
-    <lastBuildDate>Fri, 22 Jan 2016 13:14:09 +0100</lastBuildDate>
+    <pubDate>Fri, 26 Feb 2016 00:01:49 +0100</pubDate>
+    <lastBuildDate>Fri, 26 Feb 2016 00:01:49 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      
+      <item>
+        <title>CI With VSTS And Bitbucket</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS.
+&lt;/p&gt;
+
+&lt;h3&gt;The mission&lt;/h3&gt;
+
+&lt;p&gt;In my previous blog &lt;a href=&quot;http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/&quot;&gt;post&lt;/a&gt; I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
+Bitbucket is a very popular source code repository, unfortunately not a default choice in VSTS, like GitHub etc. In this post I&amp;#39;ll show the steps required
+to make Bitbucket work as repository. This post will use some of the concepts described in my previous blog post.
+The build will also run on a local build agent, VSO agent.&lt;/p&gt;
+
+&lt;h3&gt;Making a repository&lt;/h3&gt;
+
+&lt;p&gt;The first step is to make a repository at Bitbucket and make an initial commit. When the commit is made, copy the &lt;strong&gt;https&lt;/strong&gt; url of the repository.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//rasmuschristensen@bitbucket.org/rasmuschristensen/nearby.git&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;VSTS Bitbucket Service endpoint&lt;/h3&gt;
+
+&lt;p&gt;Because there is no default hook in VSTS to support Bitbucket, we need to create it as &lt;strong&gt;external git&lt;/strong&gt;.
+Navigate to the collection settings for your project, by selecting the &amp;#39;gears&amp;#39; icon in the upper right corner of your project.
+Select the &lt;strong&gt;Services&lt;/strong&gt; tab and click the &lt;strong&gt;New Service Endpoint&lt;/strong&gt;. From the menu select &lt;strong&gt;External Git&lt;/strong&gt;.
+A dialog is displayed. Add a &lt;strong&gt;Connection name&lt;/strong&gt;, this is just your identification of the service endpoint.
+The &lt;strong&gt;Server Url&lt;/strong&gt; is the fully qualified url we copied from the Bitbucket homepage. As we used &lt;strong&gt;https&lt;/strong&gt; username and password is the ones you use 
+for regular https usage of the repository.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/bitbucketserviceendpoint.png&quot; alt=&quot;serviceendpoint&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;VSTS permissions&lt;/h3&gt;
+
+&lt;p&gt;VSTS build needs some permissions to use this external git, during a build process.
+Navigate to the &lt;strong&gt;Default collection&lt;/strong&gt; a level above your corrent project and select the &lt;strong&gt;Security&lt;/strong&gt; tab. Locate &lt;strong&gt;Project Collection Build Administrators&lt;/strong&gt; and ensure &lt;strong&gt;Edit Collection-level information&lt;/strong&gt; is set to &lt;strong&gt;Allow&lt;/strong&gt;.
+If not you&amp;#39;ll get an error during the build process.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/buildpermissions.png&quot; alt=&quot;buildpermissions&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Adding a build definition&lt;/h3&gt;
+
+&lt;p&gt;Navigate to your VSTS project again and select the &lt;strong&gt;Build&lt;/strong&gt; tab. Click the &lt;strong&gt;+&lt;/strong&gt; to create a new build definition.
+I&amp;#39;m using the Xamarin.iOS. From the template select &lt;strong&gt;Remote git repository&lt;/strong&gt; (note the name difference :)).
+Once created, you can now edit the details. &lt;/p&gt;
+
+&lt;p&gt;From the &lt;strong&gt;Build&lt;/strong&gt; menu item of the build definition, add the relative path to the solution, sln file.
+&lt;em&gt;(hint: If you get this one wrong, you can use the build console output, to see the fully qualified path, and easy correct it afterwards)&lt;/em&gt;.
+Next you need to select the &lt;strong&gt;Repository&lt;/strong&gt; menu item. The &lt;strong&gt;Repository type&lt;/strong&gt; should already be set to &lt;strong&gt;external git&lt;/strong&gt; (not remote :)). Refresh the &lt;strong&gt;Connection&lt;/strong&gt; and select
+the Bitbucket service endpoint we created earlier, leave the &lt;strong&gt;Repository name&lt;/strong&gt; blank. The service endpoint is already fully qualified. Save the build definition.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/bitbucketgit.png&quot; alt=&quot;bitbucketgit&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Update VSO-agent&lt;/h3&gt;
+
+&lt;p&gt;Ensure to update your VSO build agent. I used a previous version and had issues with username and password for the external git, not being passed along to the 
+build agent, causing the build to fail (see this &lt;a href=&quot;https://github.com/Microsoft/vso-agent/issues/183&quot;&gt;issue&lt;/a&gt;). Updating an existing agent is the same as installing a new one. Navigate to the agents directory where the package.json is located and 
+execute the following command.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;n&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;skSL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//aka.ms/xplatagent | bash&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+ 
+
+&lt;h3&gt;Let&amp;#39;s build!&lt;/h3&gt;
+
+&lt;p&gt;When all steps are completed, ensure the VSO agent is running and queue a new build. (&lt;em&gt;Note, if you are build a Xamarin project, you need a business license.&lt;/em&gt;)
+When the build starts, a console is displayed inside the browser where you can follow all steps along the build process. If the sln path is incorrect, this is also where you can see the current resolved path.&lt;/p&gt;
+
+&lt;p&gt;After a couple of permission errors as described above and incorrect sln path, the result should be this, a green build&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/buildsucceeded.png&quot; alt=&quot;build succeeded&quot;&gt;&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS.
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Thu, 25 Feb 2016 00:00:00 +0100</pubDate>
+        <link>http://rasmustc.com/blog/CI-VSTS-Bitbucket-And-Xamarin/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/CI-VSTS-Bitbucket-And-Xamarin/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
@@ -74,7 +158,7 @@ On the final page we select GIT as version control, the project we want to build
 Ensure you select the non hosted build agent. I installed my agent as the default. If you need to make any changes, just click &lt;strong&gt;Manage&lt;/strong&gt;.
 The most important part of this page is to check the &lt;strong&gt;Continuous Integration&lt;/strong&gt; checkbox. Save the template and return to code&lt;strong&gt;&amp;lt;/&amp;gt;&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/img/ciTemplate.png&quot; alt=&quot;CI template&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/CITemplate.png&quot; alt=&quot;CI template&quot;&gt;&lt;/p&gt;
 
 &lt;h3&gt;Verify CI is running.&lt;/h3&gt;
 
