@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CI With VSTS And Bitbucket"
-date:   2016-02-25
+date:   2016-02-26
 ---
 
 <p class="intro">
