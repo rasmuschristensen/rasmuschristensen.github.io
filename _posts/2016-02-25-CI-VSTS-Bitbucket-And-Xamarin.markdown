@@ -9,8 +9,7 @@ date:   2016-02-26
 </p>
 
 
-### The mission
-In my previous blog [post](http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/) I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
+In the previous blog [post](http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/) I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
 Bitbucket is a very popular source code repository, unfortunately not a default choice in VSTS, like GitHub etc. In this post I'll show the steps required
 to make Bitbucket work as repository. This post will use some of the concepts described in my previous blog post.
 The build will also run on a local build agent, VSO agent.
