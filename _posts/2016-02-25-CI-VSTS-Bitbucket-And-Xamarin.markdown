@@ -5,7 +5,7 @@ date:   2016-02-26
 ---
 
 <p class="intro">
-<span class="dropcap">H</span>ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS.
+<span class="dropcap">H</span>ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS. 
 </p>
 
 
