@@ -5,8 +5,8 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 26 Feb 2016 00:14:42 +0100</pubDate>
-    <lastBuildDate>Fri, 26 Feb 2016 00:14:42 +0100</lastBuildDate>
+    <pubDate>Fri, 26 Feb 2016 08:08:38 +0100</pubDate>
+    <lastBuildDate>Fri, 26 Feb 2016 08:08:38 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -16,9 +16,7 @@
 &lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS.
 &lt;/p&gt;
 
-&lt;h3&gt;The mission&lt;/h3&gt;
-
-&lt;p&gt;In my previous blog &lt;a href=&quot;http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/&quot;&gt;post&lt;/a&gt; I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
+&lt;p&gt;In the previous blog &lt;a href=&quot;http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/&quot;&gt;post&lt;/a&gt; I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
 Bitbucket is a very popular source code repository, unfortunately not a default choice in VSTS, like GitHub etc. In this post I&amp;#39;ll show the steps required
 to make Bitbucket work as repository. This post will use some of the concepts described in my previous blog post.
 The build will also run on a local build agent, VSO agent.&lt;/p&gt;
