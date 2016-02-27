@@ -5,15 +5,15 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 26 Feb 2016 08:08:38 +0100</pubDate>
-    <lastBuildDate>Fri, 26 Feb 2016 08:08:38 +0100</lastBuildDate>
+    <pubDate>Sat, 27 Feb 2016 22:09:18 +0100</pubDate>
+    <lastBuildDate>Sat, 27 Feb 2016 22:09:18 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
       <item>
         <title>CI With VSTS And Bitbucket</title>
         <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS.
+&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS. 
 &lt;/p&gt;
 
 &lt;p&gt;In the previous blog &lt;a href=&quot;http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/&quot;&gt;post&lt;/a&gt; I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
@@ -79,7 +79,7 @@ When the build starts, a console is displayed inside the browser where you can f
 </description>
         
           <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS.
+&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS. 
 &lt;/p&gt;
 </description>
         

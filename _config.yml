@@ -10,6 +10,8 @@ markdown: redcarpet
 highlighter: pygments
 paginate: 5
 
+comments: true
+
 navigation:
  - title: Home
    url: /index.html
