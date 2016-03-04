@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Infinite ListView scrolling with behaviors"
+title:  "Infinite ListView scrolling with behaviors and XAML"
 date:   2016-03-04
 ---
 
 <p class="intro">
-<span class="dropcap">S</span>crolling a ListView with behaviors makes your code clean and reuseable 
+<span class="dropcap">S</span>crolling a ListView with behaviors makes your code clean and reuseable.
 </p>
 
 By default Xamarin Forms support scrolling and making infinite scrolling by using events. If you like me are developing with the MVVM mindset, 
