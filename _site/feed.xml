@@ -5,9 +5,152 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 21 Mar 2016 23:44:24 +0100</pubDate>
-    <lastBuildDate>Mon, 21 Mar 2016 23:44:24 +0100</lastBuildDate>
+    <pubDate>Sun, 03 Apr 2016 23:49:37 +0200</pubDate>
+    <lastBuildDate>Sun, 03 Apr 2016 23:49:37 +0200</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      
+      <item>
+        <title>Indexed ViewModelLocator With MvvmLight And Xamarin Forms</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;W&lt;/span&gt;orking with MVVMLight toolkit and Xamarin Forms removes a lot of boiler plate coding. When it comes to the basic of resolving viewmodels this clean code gets a bit blurry, so let&#39;s see how we can improve this.  
+&lt;/p&gt;
+
+&lt;h3&gt;The default Viewmodel resolving&lt;/h3&gt;
+
+&lt;p&gt;Building a solution with MVVMLight, the most common solution to resolve viewmodels is a mix of SimpleIOC and a ViewModelLocator. The ViewModelLocator provides basic binding for each ViewModel it exposes and Views consume the ViewModels by databinding.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ContentPage&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://xamarin.com/schemas/2014/forms&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;xmlns:x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://schemas.microsoft.com/winfx/2009/xaml&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;x:Class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;BasicMvvmLight.Views.CarListView&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;BindingContext=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;{Binding CarVM, Source={StaticResource ViewModelLocator}}&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;ContentPage.Content&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;Label&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Text=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;{Binding Brand}&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/Label&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ContentPage.Content&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ContentPage&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ViewModelLocator&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ViewModelLocator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ServiceLocator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetLocatorProvider&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleIoc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;SimpleIoc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarViewModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;       
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;    &lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;    [System.Diagnostics.CodeAnalysis.SuppressMessage (&amp;quot;Microsoft.Performance&amp;quot;,&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;        &amp;quot;CA1822:MarkMembersAsStatic&amp;quot;,&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;        Justification = &amp;quot;This non-static member is needed for data binding purposes.&amp;quot;)]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarViewModel&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarVM&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ServiceLocator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarViewModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The code above ensures that the BindingContext in the &lt;strong&gt;view&lt;/strong&gt; is set by the &lt;strong&gt;&lt;em&gt;CarVM&lt;/em&gt;&lt;/strong&gt; binding where CarVM is the name of the binding in the ViewModelLocator providing the CarViewModel. As the solution grows, the &lt;strong&gt;ViewModelLocator&lt;/strong&gt; becomes a class with a lot of basic getter&amp;#39;s just to resolve ViewModels, some pretty trivial code to write an maintain. &lt;/p&gt;
+
+&lt;h3&gt;Indexed databinding&lt;/h3&gt;
+
+&lt;p&gt;If we start by taking a look at the XAML code in the view, we currently have the &lt;strong&gt;Binding CarVM&lt;/strong&gt; as a &lt;strong&gt;&lt;em&gt;hard&lt;/em&gt;&lt;/strong&gt; databinding to a specific property on the &lt;strong&gt;ViewModelLocator&lt;/strong&gt;. Luckily we have the option to use an indexed binding, where we can specify a simple name as a string, we want to bind to and not a specific property. This means we can take advantage of a single index on the viewmodel to resolve viewmodels and less code to maintain! The flow is illustrated below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/viewmodellocatorflow.png&quot; alt=&quot;viewmodellocatorflow&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Refactor View&lt;/h3&gt;
+
+&lt;p&gt;The first thing we need to do is change the binding in the view to make use of the &lt;strong&gt;indexer&lt;/strong&gt;. As you can see I&amp;#39;ve also changed the name of the index to &lt;strong&gt;CarViewModel&lt;/strong&gt;. this is because we want to use the binding index as type lookup in the ViewModelLocator later meaning the name should match a corresponding type.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ContentPage&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://xamarin.com/schemas/2014/forms&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;xmlns:x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://schemas.microsoft.com/winfx/2009/xaml&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;x:Class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;BasicMvvmLight.Views.CarListView&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;BindingContext=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;{Binding [CarViewModel], Source={StaticResource ViewModelLocator}}&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;ContentPage.Content&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;Label&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Text=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;{Binding Brand}&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/Label&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ContentPage.Content&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ContentPage&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+ 
+
+&lt;h3&gt;Refactor ViewModelLocator&lt;/h3&gt;
+
+&lt;p&gt;The refactor of our ViewModelLocator introduces some new concepts. As specified by the view, we should provide an &lt;strong&gt;indexer&lt;/strong&gt;. The indexer is added by letting the ViewModelLocator inherit from &lt;strong&gt;DynamicObject&lt;/strong&gt;. This makes &lt;strong&gt;TryGetMember&lt;/strong&gt; available, which the binding in the view will target. Combined with this, we add an indexer which use the final piece of the puzzle, the &lt;strong&gt;ViewModelResolver&lt;/strong&gt;. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ViewModelLocator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DynamicObject&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ViewModelResolver&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_resolver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ViewModelLocator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ServiceLocator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetLocatorProvider&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleIoc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;SimpleIoc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarViewModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ViewModelResolver&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Resolver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_resolver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;_resolver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ViewModelResolver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_resolver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewModelName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;               
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Resolver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Resolve&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewModelName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;TryGetMember&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetMemberBinder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;binder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;binder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+ 
+
+&lt;h3&gt;Introducing ViewModelResolver&lt;/h3&gt;
+
+&lt;p&gt;The responsibility of the &lt;strong&gt;ViewModelResolver&lt;/strong&gt; is to resolve an instance of a ViewModel, from a name specifying its type. One thing to keep in mind, the &lt;strong&gt;ViewModelResolver&lt;/strong&gt; is located inside a &lt;strong&gt;PCL&lt;/strong&gt;. This is necessary to know when we resolve the type from the assembly.
+We find all the types defined and make a match on the provided name. When located, the instance is resolved and all dependencies it might might require (constructor based) will also be resolved, when using the DI Container.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ViewModelResolver&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;        
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ViewModelResolver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;       
+
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Resolve&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewModelName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vmtype&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetTypeInfo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Assembly&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DefinedTypes&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FirstOrDefault&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Equals&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewModelName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AsType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ServiceLocator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetInstance&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vmtype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With the ViewModelResolver in place we can now run the project and if we extend the app with more view and viewmodels, we just need to ensure everything is registered in the DI container. If another DI container like Autofac is used instead, it can simply be injected into the ViewModelResolver.&lt;/p&gt;
+
+&lt;p&gt;The complete source code is available here &lt;a href=&quot;https://github.com/rasmuschristensen/XamarinFormsImageGallery&quot;&gt;GitHub Repository&lt;/a&gt;.&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;W&lt;/span&gt;orking with MVVMLight toolkit and Xamarin Forms removes a lot of boiler plate coding. When it comes to the basic of resolving viewmodels this clean code gets a bit blurry, so let&#39;s see how we can improve this.  
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Mon, 21 Mar 2016 00:00:00 +0100</pubDate>
+        <link>http://rasmustc.com/blog/Index-ViewModelLocator-With-MvvmLight-And-Xamarin-Forms/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/Index-ViewModelLocator-With-MvvmLight-And-Xamarin-Forms/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
@@ -133,9 +276,9 @@ For a functional demo, watch the video at the bottom of this post or checkout th
 &lt;/p&gt;
 </description>
         
-        <pubDate>Fri, 04 Mar 2016 00:00:00 +0100</pubDate>
-        <link>http://rasmustc.com/blog/Observable-Image-Gallery-With-Xamarin-Forms/</link>
-        <guid isPermaLink="true">http://rasmustc.com/blog/Observable-Image-Gallery-With-Xamarin-Forms/</guid>
+        <pubDate>Mon, 21 Mar 2016 00:00:00 +0100</pubDate>
+        <link>http://rasmustc.com/blog/Image-Gallery-With-Xamarin-Forms/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/Image-Gallery-With-Xamarin-Forms/</guid>
         
         
       </item>
@@ -998,61 +1141,6 @@ a mobile Xamarin client running in either simulator or on a device.
         <pubDate>Sun, 06 Dec 2015 00:00:00 +0100</pubDate>
         <link>http://rasmustc.com/blog/ATS-and-local-dev/</link>
         <guid isPermaLink="true">http://rasmustc.com/blog/ATS-and-local-dev/</guid>
-        
-        
-      </item>
-      
-    
-      
-      <item>
-        <title>Compile XAML with Xamarin</title>
-        <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;O&lt;/span&gt;ne of the new features in Xamarin 4 and Xamarin Forms 2.0 is the ability to compile Xaml views.
- This feature should reduce view load time, the compiled app size, the catch might be an increase in compilation time, so let&#39;s see how
- this works.
-&lt;/p&gt;
-
-&lt;h2&gt;Xaml runtime error&lt;/h2&gt;
-
-&lt;p&gt;First we created a basic Xamarin cross platform project based on Xamarin Forms. Ensure to update the Xamarin.Forms nuget packages to version 2.x.
-Add a Xaml view to the project with a simple Button control and two properties Id and Text (...Yes the Id is not valid, let&amp;#39;s verify it.)
-&lt;img src=&quot;/assets/img/InvalidXaml.png&quot; alt=&quot;xamarin invalid attr&quot;&gt;
-Before Xamarin Forms 2.0 this would compile just fine, and if we didn&amp;#39;t do anything to the current project in Xamarin 2.0, compilation will also complete without any errors.
-If we start the app either in the simulator or on a device, we would get a runtime error.
-&lt;img src=&quot;/assets/img/xamlruntimeerror.png&quot; alt=&quot;xamarin runtime error&quot;&gt;&lt;br&gt;
-As expected the &amp;quot;Id&amp;quot; property is invalid. 
-As this is a very simple example, this could however be something deep inside our app and not that easy to locate.&lt;/p&gt;
-
-&lt;h2&gt;Enabling Xaml Compilation&lt;/h2&gt;
-
-&lt;p&gt;The new feature to enable the XamlC, Xaml Compiler - can be enabled at either assembly level or class level or in a mix of both. It&amp;#39;s located in the namespace
-&lt;strong&gt;Xamarin.Forms.Xaml&lt;/strong&gt;. 
-Locate the App class and above the namespace definition, add the following codesnippet.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Xamarin.Forms.Xaml&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;[assembly: XamlCompilation (XamlCompilationOptions.Compile)]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Build the project again and now the code won&amp;#39;t compile, with the following error, but luckily this time, we caught it during compilation.
-&lt;img src=&quot;/assets/img/compileerror.png&quot; alt=&quot;xamarin compile error&quot;&gt;
-It&amp;#39;s also possible to add Xaml compilation to a specific view, simply by added the same attribute as before without &lt;strong&gt;assembly:&lt;/strong&gt; to at the class level of a view.
-The result is the same as before, except this time Xaml compilation is only enabled for a specific view.
-&lt;img src=&quot;/assets/img/xamlcompilationclass.png&quot; alt=&quot;xamarin compile error&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Finally it&amp;#39;s possible to either add and mix multiple class level Xaml compilations or if you enabled it at assembly level, you can exclude it for specific viewsby selecting
-&lt;strong&gt;.Skip&lt;/strong&gt; instead of &lt;strong&gt;.Compile&lt;/strong&gt; at class level
- &lt;img src=&quot;/assets/img/xamlcompileskip.png&quot; alt=&quot;xamarin compile skip&quot;&gt;&lt;/p&gt;
-</description>
-        
-          <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;O&lt;/span&gt;ne of the new features in Xamarin 4 and Xamarin Forms 2.0 is the ability to compile Xaml views.
- This feature should reduce view load time, the compiled app size, the catch might be an increase in compilation time, so let&#39;s see how
- this works.
-&lt;/p&gt;
-</description>
-        
-        <pubDate>Wed, 25 Nov 2015 00:00:00 +0100</pubDate>
-        <link>http://rasmustc.com/blog/compiled-xaml-views/</link>
-        <guid isPermaLink="true">http://rasmustc.com/blog/compiled-xaml-views/</guid>
         
         
       </item>
