@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Indexed ViewModelLocator With MvvmLight And Xamarin Forms"
-date:   2016-04-04
+date:   2016-04-03
 ---
 
 <p class="intro">
