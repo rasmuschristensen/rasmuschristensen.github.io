@@ -129,7 +129,7 @@ public class ViewModelResolver
 
 With the ViewModelResolver in place we can now run the project and if we extend the app with more view and viewmodels, we just need to ensure everything is registered in the DI container. If another DI container like Autofac is used instead, it can simply be injected into the ViewModelResolver.
 
-The complete source code is available here [GitHub Repository](https://github.com/rasmuschristensen/XamarinFormsImageGallery).
+The complete source code is available here [GitHub Repository](https://github.com/rasmuschristensen/XamarinMvvmLightViewModelResolver).
 
 
 
