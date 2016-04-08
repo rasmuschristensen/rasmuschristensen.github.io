@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Combine IOC And DependencyService"
+title:  "Howto Combine IOC And Xamarin DependencyService"
 date:   2016-04-07
 ---
 
