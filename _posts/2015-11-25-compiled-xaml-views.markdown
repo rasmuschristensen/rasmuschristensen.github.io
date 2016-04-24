@@ -23,11 +23,11 @@ As this is a very simple example, this could however be something deep inside ou
 The new feature to enable the XamlC, Xaml Compiler - can be enabled at either assembly level or class level or in a mix of both. It's located in the namespace
 __Xamarin.Forms.Xaml__. 
 Locate the App class and above the namespace definition, add the following codesnippet.
-{% highlight csharp %}
+´´´ 
 
 using Xamarin.Forms.Xaml
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
-{% endhighlight %}
+´´´
 
 Build the project again and now the code won't compile, with the following error, but luckily this time, we caught it during compilation.
 <img src="{{ '/assets/img/compileerror.png' | prepend: site.baseurl }}" alt="xamarin compile error">
