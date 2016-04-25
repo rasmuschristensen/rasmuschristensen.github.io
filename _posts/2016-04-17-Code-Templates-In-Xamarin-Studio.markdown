@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Code Templates In Xamarin Studio"
-date:   2016-04-24
+date:   2016-04-25
 ---
 
 <p class="intro">
