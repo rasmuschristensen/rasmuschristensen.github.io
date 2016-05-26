@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Black and white images with Xamarin"
-date:   2016-04-25
+date:   2016-05-26
 ---
 
 <p class="intro">
