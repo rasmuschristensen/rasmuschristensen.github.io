@@ -41,9 +41,7 @@ BackgroundColor="Black">
 The result speaks for itself!
 __Your coffee is servered__
 <img src="{{ '/assets/img/gridstack/coffeestack.png' | prepend: site.baseurl }}"   alt="coffee">
-
-And while not add an __ActivityIndicator__ while brewing, it's just another element to stack.
-
+And why not add an __ActivityIndicator__ while brewing, it's just another element to stack.
 <img src="{{ '/assets/img/gridstack/coffeebrew.png' | prepend: site.baseurl }}"  alt="coffeebrew">
 
 
