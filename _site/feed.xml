@@ -5,9 +5,68 @@
     <description>Long Form Jekyll theme built with SASS / COMPASS / SUSY</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 26 May 2016 21:16:03 +0200</pubDate>
-    <lastBuildDate>Thu, 26 May 2016 21:16:03 +0200</lastBuildDate>
+    <pubDate>Mon, 30 May 2016 22:34:28 +0200</pubDate>
+    <lastBuildDate>Mon, 30 May 2016 22:34:28 +0200</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      
+      <item>
+        <title>Latte Art With Xamarin Grid</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt; very common task when working with UI is to stack elements upon each other in a z-order. Often a bit complicated task, using either a Relative- or AbsoluteLayout in Xamarin Forms. Why not use a Grid for simple tasks, like making latte art? 
+&lt;/p&gt;
+
+&lt;h3 id=&quot;simple-stacking-can-be-made-complex&quot;&gt;Simple stacking can be made complex&lt;/h3&gt;
+&lt;p&gt;A while back I had to stack some UI elements in a project. Making a relative simple overlay, one image on top of another. One of the resources on the topic I found was 
+(Xamarin.Forms in anger, Mall)[https://www.syntaxismyui.com/xamarin-forms-in-anger-mall-dash/] by Adam J Wolf. A great example of using the &lt;strong&gt;RelativeLayout&lt;/strong&gt;. Also a bit complex just to stack single elements. &lt;strong&gt;&lt;em&gt;Please note that if you need more control of the layout you should follow the great example by Adam&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;we-got-a-simpler-solution&quot;&gt;We got a simpler solution&lt;/h3&gt;
+&lt;p&gt;While &lt;strong&gt;Absolute-&lt;/strong&gt; and &lt;strong&gt;-RelativeLayout&lt;/strong&gt; works great, especially if you have a complex overlay they are the ones to use. In my case I just needed a single element overlay. As we already use Grid as a layout in many views, we know that elements are added to rows and columns by specifying an index like Grid.Row=”0” etc. Now what happens if we add multiple elements to the same index?
+&lt;strong&gt;The will be stacked!!&lt;/strong&gt;, first element at the bottom, the next one above and so on. Let’s try, by simple adding a grid to a page and add 2 images to the same row.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ContentPage&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;BackgroundColor=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Black&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;Grid&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Grid&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;RowDefinitions&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+		&lt;span class=&quot;nt&quot;&gt;&amp;lt;RowDefinition&lt;/span&gt;
+			&lt;span class=&quot;na&quot;&gt;Height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+		&lt;span class=&quot;nt&quot;&gt;&amp;lt;/RowDefinition&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;/Grid.RowDefinitions&amp;gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Image&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;Grid&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Row=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;Source=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;coffee.png&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Image&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Image&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;Grid&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Row=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;Margin=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0,-40,0,0&quot;&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;Source=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;foam.png&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Image&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Grid&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ContentPage&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The result speaks for itself!
+&lt;strong&gt;Your coffee is servered&lt;/strong&gt;
+&lt;img src=&quot;/assets/img/gridstack/coffeestack.png&quot; alt=&quot;coffee&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And while not add an &lt;strong&gt;ActivityIndicator&lt;/strong&gt; while brewing, it’s just another element to stack.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/gridstack/coffeebrew.png&quot; alt=&quot;coffeebrew&quot; /&gt;&lt;/p&gt;
+
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt; very common task when working with UI is to stack elements upon each other in a z-order. Often a bit complicated task, using either a Relative- or AbsoluteLayout in Xamarin Forms. Why not use a Grid for simple tasks, like making latte art? 
+&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Mon, 30 May 2016 00:00:00 +0200</pubDate>
+        <link>http://rasmustc.com/blog/Latte-Art-With-Xamarin-Grid/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/Latte-Art-With-Xamarin-Grid/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
@@ -60,7 +119,7 @@ Finally we need to create a new &lt;strong&gt;UIImage&lt;/strong&gt; from the co
 
 </description>
         
-        <pubDate>Mon, 25 Apr 2016 00:00:00 +0200</pubDate>
+        <pubDate>Thu, 26 May 2016 00:00:00 +0200</pubDate>
         <link>http://rasmustc.com/blog/Black-And-White-Images-With-Xamarin/</link>
         <guid isPermaLink="true">http://rasmustc.com/blog/Black-And-White-Images-With-Xamarin/</guid>
         
@@ -876,193 +935,6 @@ data in the mobile client.
         <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
         <link>http://rasmustc.com/blog/Custom-Facebook-Authentication-part3/</link>
         <guid isPermaLink="true">http://rasmustc.com/blog/Custom-Facebook-Authentication-part3/</guid>
-        
-        
-      </item>
-      
-    
-      
-      <item>
-        <title>Facebook Auth with Xamarin Forms and WebAPI CustomGrant - part 2</title>
-        <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;I&lt;/span&gt;n the previous post the mobile client was created. In this post we&#39;ll created the WebAPI backend part. We&#39;ll enable
-the API to verify a Facebook access token and exhanged it with an access token to our backend, fully supported and integrated with the ASPNET WebAPI.
-&lt;/p&gt;
-
-&lt;p&gt;If you haven’t read part1 you can find it &lt;a href=&quot;http://rasmustc.com/blog/Custom-Facebook-Authentication-with-webapi/&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;token-based-authentication-with-aspnet-webapi&quot;&gt;Token based authentication with ASPNET WebAPI&lt;/h3&gt;
-&lt;p&gt;When working with a disconnected client like a mobile app, OAuth is one way to authenticate with a backend using tokens. Often when using ASPNET WebAPI there will be examples
-using ASPNET Identity and entity framework. While this option is valid in many situations, it can in my opinion get a bit bloated with the different layers to support user auth for simple applications.
-The goal of this post is to make a Token endpoint in the API, where we’ll receive the Facebook access token, verify it and the exchange it for a valid access token to our system, area 2 and 3 in the figure below.
-&lt;img src=&quot;/assets/img/app-fb-api.png&quot; alt=&quot;setup&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;creating-the-project&quot;&gt;Creating the project&lt;/h3&gt;
-&lt;p&gt;Start by creating a new Empty ASPNET project and only include the WebAPI references, we want to keep tings as simple as possible.
-&lt;img src=&quot;/assets/img/emptyapi.png&quot; alt=&quot;newapi&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;required-nuget-packages&quot;&gt;Required nuget packages&lt;/h3&gt;
-&lt;p&gt;Before adding any code, the following list of nuget packages must be installed.
-It’s very important the &lt;strong&gt;Microsoft.Owin.Host.SystemWeb&lt;/strong&gt; package is installed or else OWIN startup will not be executed.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;install-package Microsoft.Owin 
-install-package microsoft.owin.cors
-install-package Microsoft.Owin.Security.OAuth
-install-package Microsoft.Owin.Host.SystemWeb
-install-package Microsoft.AspNet.WebApi.Owin
-install-package Facebook&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;For simplicity there is no use of Dependency Injection in this sample project, only the core server. The entrypoint is the &lt;strong&gt;Startup&lt;/strong&gt; class in the root of the solution.&lt;/p&gt;
-
-&lt;h3 id=&quot;owin-startup-pipeline&quot;&gt;OWIN startup pipeline&lt;/h3&gt;
-&lt;p&gt;The project will make use of the &lt;strong&gt;OWIN&lt;/strong&gt; pipeline, so we need some additional packages, compared to using Global.asax, these should already be added if all listed backages is installed. Note that Global.asax has been removed from the project.
-&lt;img src=&quot;/assets/img/slnOverview.png&quot; alt=&quot;newapi&quot; /&gt;
-#### Owin Start - Startup.cs
-This is the main entrypoint to the API. In here we setup:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Route&lt;/strong&gt; mapping to controllers is enabled.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Authentication&lt;/strong&gt; is enabled.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;CORS&lt;/strong&gt; is enabled.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;na&quot;&gt;[assembly: OwinStartup(typeof(Startup))]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;SimpleAPI&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;partial&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Startup&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Configuration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IAppBuilder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;            
-            &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HttpConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-            &lt;span class=&quot;n&quot;&gt;WebApiConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-         
-            &lt;span class=&quot;nf&quot;&gt;ConfigureAuth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-            &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;UseCors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Microsoft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Owin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CorsOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AllowAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;UseWebApi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The &lt;strong&gt;WebApiConfig.Register&lt;/strong&gt; is just the default implementation in this example. Attributed routing is not included, we rely on default Controller and action mapping.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;ConfigureAuth&lt;/strong&gt; is the most important part, implemented as partial on Startup named &lt;strong&gt;Startup.Auth.cs&lt;/strong&gt;. It implements the core Token server setup and is added to the API just before the details to allow CORS (This is needed as or mobile clients is on another domain compared to our API)&lt;/p&gt;
-
-&lt;h4 id=&quot;startupauthcs---tokenserver-setup&quot;&gt;Startup.Auth.cs - TokenServer setup&lt;/h4&gt;
-
-&lt;p&gt;This class holds the configuration of the token server setup. First of all we tell the server to accept token requests on the &lt;strong&gt;/Token&lt;/strong&gt; endpoint.
-If our API is hosted on &lt;strong&gt;http://localhost:20000&lt;/strong&gt;, then it will be possible to request a token at &lt;strong&gt;http://localhost:20000/token&lt;/strong&gt;. Meaning this is the endpoint our mobile client should request.
-For now the access token expiration time is just set to a random value and there is no support to renew, beside manually send a request to the &lt;strong&gt;/Token&lt;/strong&gt; again.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;partial&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Startup&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ConfigureAuth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IAppBuilder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;OAuthAuthorizationServerOptions&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OAuthServerOptions&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;OAuthAuthorizationServerOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;AllowInsecureHttp&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;TokenEndpointPath&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;PathString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;AccessTokenExpireTimeSpan&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TimeSpan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FromDays&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;  
-            &lt;span class=&quot;n&quot;&gt;Provider&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SimpleAuthTokenProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;// Token Generation
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;UseOAuthAuthorizationServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuthServerOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;UseOAuthBearerAuthentication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;OAuthBearerAuthenticationOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;        
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The &lt;strong&gt;Provider&lt;/strong&gt; is where we can hook into the generation and validation of access tokens, implemented as SimpleAuthTokenProvider.&lt;/p&gt;
-
-&lt;h4 id=&quot;simpleauthtokenprovidercs---customgrant&quot;&gt;SimpleAuthTokenProvider.cs - CustomGrant&lt;/h4&gt;
-
-&lt;p&gt;The provider first of all needs to inherit &lt;strong&gt;OAuthAuthorizationServerProvider&lt;/strong&gt;, this makes it possible to override the needed methods
-&lt;strong&gt;OAuthAuthorizationServerProvider&lt;/strong&gt; and &lt;strong&gt;OAuthAuthorizationServerProvider&lt;/strong&gt; where the latter is where we want to put our custom logic.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;GrantCustomExtension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuthGrantCustomExtensionContext&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GrantType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ToLower&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;facebook&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fbClient&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FacebookClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accesstoken&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-
-        &lt;span class=&quot;n&quot;&gt;dynamic&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fbClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GetTaskAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;me&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;email, first_name, last_name&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-        
-        &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstname&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastname&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// place your own logic to lookup and/or create users....
-&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// your choice of claims...
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ClaimsIdentity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AuthenticationType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;AddClaim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Claim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sub&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{firstname} {lastname}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;AddClaim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Claim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;role&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-
-        &lt;span class=&quot;n&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GrantCustomExtension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Validated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;            
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The above code allows us to accept a custom &lt;strong&gt;grant_type&lt;/strong&gt; from a caller and here we say the value should be &lt;strong&gt;facebook&lt;/strong&gt;, a custom phrase we decide. This will also make it quite simple to extend the code
-to allow other providers like google etc.
-When we get a valid grant_type, we fetch the &lt;strong&gt;accesstoken&lt;/strong&gt; from the request, again we decide what the key should be named.&lt;/p&gt;
-
-&lt;p&gt;The key will contain a facebook access token as its value, the one we requested from Facebook in part1 and posted to the API.
-In the beginning where we installed Nuget package, we also installed a Facebook package, this enables us to request Facebook, to verify the provided access token.
-The fields we expect needs to match the setup in the app created in the Facebook developer portal.
-When we get a response from Facebook, we can extract the expected values and in a real world scenario, we would then make some registration/lookup for the user in our system, but this part is up to you and the your system requirements.
-All we do here is creating an identity and finally make the identity validated and that’s it. no more, no less. Our server is now ready to run and provide access tokens to our system.&lt;/p&gt;
-
-&lt;h3 id=&quot;calling-the-token-endpoint-from-xamarin&quot;&gt;Calling the Token endpoint from Xamarin&lt;/h3&gt;
-&lt;p&gt;Now when we have our server created and running we can make the request from our mobile client created in &lt;a href=&quot;http://rasmustc.com/blog/Custom-Facebook-Authentication-with-webapi/&quot;&gt;part1&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The code required to take the Facebook access token, send it to our API Token endpoint, and get an access token to our API in response is listed here. The full example is available on GitHub.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModernHttpClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;NativeMessageHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; 
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HttpClient&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FormUrlEncodedContent&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyValuePair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accesstoken&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;access&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyValuePair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;provider&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;facebook&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-            
-        &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;authenticateResponse&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;PostAsync&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Uri&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://windows:8080/Token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authenticateResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsSuccessStatusCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-            &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;responseContent&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;authenticateResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ReadAsStringAsync&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;authenticationTicket&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonConvert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DeserializeObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AuthenticatedUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;responseContent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authenticationTicket&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apiAccessToken&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;authenticationTicket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Access_Token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;c1&quot;&gt;// Save it to App settings...
-&lt;/span&gt;            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;If we want to take a look at the return data from the api, we can also make the request from a tool like &lt;strong&gt;POSTMAN&lt;/strong&gt;. All that’s required is a valid Facebook access token, which can be generated at &lt;strong&gt;Facebook Graph API Explorer&lt;/strong&gt;.
-&lt;img src=&quot;/assets/img/requesttoken.png&quot; alt=&quot;requesttoken&quot; /&gt;
-As you can see we get a token of type &lt;strong&gt;Bearer&lt;/strong&gt; in response when we request the &lt;strong&gt;/Token&lt;/strong&gt; endpoint. We now have a complete setup to enable OAuth bearer tokens.
-In the next and final part3 of this series we’ll see how we can use the token to request data from our API.&lt;/p&gt;
-
-&lt;p&gt;Source code is available on &lt;a href=&quot;https://github.com/rasmuschristensen/SimpleOAuth&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        
-          <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;I&lt;/span&gt;n the previous post the mobile client was created. In this post we&#39;ll created the WebAPI backend part. We&#39;ll enable
-the API to verify a Facebook access token and exhanged it with an access token to our backend, fully supported and integrated with the ASPNET WebAPI.
-&lt;/p&gt;
-
-</description>
-        
-        <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://rasmustc.com/blog/Custom-Facebook-Authentication-part2/</link>
-        <guid isPermaLink="true">http://rasmustc.com/blog/Custom-Facebook-Authentication-part2/</guid>
         
         
       </item>
