@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Indexed ViewModelLocator With MVVMLight And Xamarin Forms"
+description:  "Indexed ViewModelLocator With MVVMLight And Xamarin Forms"
 date:   2016-04-03
 ---
 

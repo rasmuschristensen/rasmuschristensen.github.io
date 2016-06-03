@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Namespaces in Xamarin Studio"
+description: "A simple guide to structure code in a namespace style"
 date:   2015-11-24
 ---
 

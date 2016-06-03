@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Image gallery with Xamarin Forms"
+description: "How to Build an Image Gallery With Xamarin Forms"
 date:   2016-03-21
 ---
 

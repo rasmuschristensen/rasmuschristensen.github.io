@@ -1,5 +1,5 @@
 title: Rasmus Tolstrup Christensen
-description: Long Form Jekyll theme built with SASS / COMPASS / SUSY
+description: "All about Xamarin and dotnet"
 
 url: http://rasmustc.com
 baseurl: ""
@@ -7,7 +7,7 @@ paginate_path: "blog/page:num/"
 permalink: blog/:title/
 
 markdown: kramdown
-gems: [jekyll-paginate]
+gems: [jekyll-paginate, jekyll-seo-tag]
 highlighter: rouge
 paginate: 5
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Orientation in Xamarin Forms"
+description: "How to handle Orientation in Xamarin Forms"
 date:   2016-06-02
 ---
 

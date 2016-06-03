@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Facebook Auth with Xamarin Forms and WebAPI CustomGrant - part 1"
+description:  "Facebook Auth with Xamarin Forms and WebAPI CustomGrant - part 1"
 date:   2016-01-06
 ---
 

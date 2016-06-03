@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "CI With VSTS And Bitbucket"
+description:  "Visual Studio Team Services and BitBucket Integration"
 date:   2016-02-26
 ---
 

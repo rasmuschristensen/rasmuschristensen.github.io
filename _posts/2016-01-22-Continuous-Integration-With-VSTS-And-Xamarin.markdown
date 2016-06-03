@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "CI With VSTS And Xamarin"
+description: "Continuous Integration With Visual Studio Team Services and Xamarin"
 date:   2016-01-22
 ---
 

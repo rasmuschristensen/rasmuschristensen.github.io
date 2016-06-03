@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Black and white images with Xamarin"
+description:  "How to make Black and white images with Xamarin on IOS"
 date:   2016-05-26
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Latte Art With Xamarin Grid"
+description:  "How to stack images using a grid in Xamarin Forms"
 date:   2016-05-30
 ---
 

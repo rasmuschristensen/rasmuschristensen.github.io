@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Consume an IISExpress hosted WebAPI from OSX"
+description: "How to consume an windows iisexpress hosted webapi from OSX"
 date:   2016-01-03
 ---
 

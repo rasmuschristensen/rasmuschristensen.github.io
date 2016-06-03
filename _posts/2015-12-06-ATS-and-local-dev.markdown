@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "ATS and local development with Xamarin"
+description: "ATS - Application Transport Security and local mobil IOS development"
 date:   2015-12-06
 ---
 

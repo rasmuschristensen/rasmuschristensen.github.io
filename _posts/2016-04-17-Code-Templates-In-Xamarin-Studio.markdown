@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Code Templates In Xamarin Studio"
+description:  "Code Templates In Xamarin Studio"
 date:   2016-04-25
 ---
 

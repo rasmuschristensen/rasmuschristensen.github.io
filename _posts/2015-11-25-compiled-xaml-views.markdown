@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Compile XAML with Xamarin"
+description: "How to enable compilation of XAML in Xamarin"
 date:   2015-11-25
 ---
 

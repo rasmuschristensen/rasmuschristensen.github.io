@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Infinite ListView scrolling with behaviors and XAML"
+description:  "Infinite ListView scrolling with behaviors and XAML in Xamarin Forms"
 date:   2016-03-04
 ---
 
