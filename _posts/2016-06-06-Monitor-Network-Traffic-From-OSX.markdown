@@ -30,3 +30,31 @@ When charles is running, we need to route the mobile device to the proxy. On iOS
 When you make some interaction with an app, you can now follow the communication in __Charles__. You might see a lot of "noise", as other apps also use the network and it can be hard to follow just your requests to a specific endpoint. Charles has a simple feature called __Focus__. You simple select __Structure__ at the main layout and right click one of your requests and to __Focus__ from the menu. Now your requests will be grouped at the top of the treeview and all other traffic will be moved into a node called __Other hosts__. Simple and to the point. As with other similar monitoring tools, you can now see and browse all request/response your app is making.
 <img src="{{ '/assets/img/webproxy/charles.png' | prepend: site.baseurl }}"   alt="charles">
 
+### Monitor data from your app
+As I mentioned in the beginning, Authentication and IF-MODIFIED-SINCE are two of the values I used Charles to investigate, so let's see how this can be done i real life with Xamarin Forms.
+Let's say we have a car API and want to fetch all cars, the code could be something like this.
+{% highlight csharp %}
+public void GetAllCars(string baseUri)
+{
+	var httpClient = new HttpClient(new ModernHttpClient.NativeMessageHandler());
+
+	httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
+	if (httpClient.DefaultRequestHeaders.CacheControl == null)
+					httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue();
+
+	var lastModifiedDate = Settings.GetLastModified(ifModifiedSinceKey);
+
+	httpClient.DefaultRequestHeaders.CacheControl.NoCache = true;
+	httpClient.DefaultRequestHeaders.IfModifiedSince = lastModifiedDate;
+	httpClient.DefaultRequestHeaders.CacheControl.NoStore = true;
+
+	var httpResponse = await httpClient.GetAsync(new Uri(baseUri, "api/Cars/All" ));
+	......
+}
+{% endhighlight %}
+First we create and instance of the HttpClient using ModernHttpClient. Next up we add an __AuthenticationHeader__ setting a value we stored in Settings. Finally we set the __IfModifiedSince__ with a value stored in settings. Note I'm using this awesome crossplatform [plugin](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/Settings). The CacheControl will not be of focus for this post. Now let's see how the data is visible in Charles.
+First we can take a look at the __AuthenticationHeader__. As you can see it's pretty easy to read the data now.
+<img src="{{ '/assets/img/webproxy/authheader.png' | prepend: site.baseurl }}"   alt="authheader">
+Next we have the IF-MODIFIED-SINCE. As in my case I had a timezone issue and needed to compare the value from my code, to the actual value being transfered, and I didn't have access to debug the API. 
+<img src="{{ '/assets/img/webproxy/ifmodifiedsince.png' | prepend: site.baseurl }}"   alt="idmodifiedsince">
+You may notice I change the view in charles, and we have some more details here, but as you can see once again, we get the data we're looking for very easy.
