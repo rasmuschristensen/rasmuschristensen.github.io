@@ -11,7 +11,7 @@ date:   2016-11-21
 
 ### A basic Azure Search setup
 The scope for this post will be a setup where data from an Azure hosted SQL Database will be exposed by an Index in Azure Search. To do this we need 3 parts, a __datasource__, an __index__ and an __indexer__. The datasource is our SQL database, the index contains the data to expose and the indexer is the "scheduler" to add data to the index.
-As mentioned Azure Search provides a REST API. To use the API you need to provide an __admin__ key, not a __query__ key, this key will be part of each request to authenticate.
+As mentioned Azure Search provides a [REST API](https://docs.microsoft.com/en-us/rest/api/searchservice/?redirectedfrom=MSDN). To use the API you need to provide an __admin__ key, not a __query__ key, this key will be part of each request to authenticate.
 
 ### First step, Create A datasource
 The first thing we need is a datasource. Here we use Azure Sql Server and one thing you need to think about is how you want to detect changes. Azure Search support a soft-delete approach and "Sql Server Integrated Change Tracking policy". We'll use the latter to have items removed from the index, when they are removed from the SQL Server. You need to ensure this is enabled on the SQL Server __BEFORE__ you create the datasource in Azure Search.
