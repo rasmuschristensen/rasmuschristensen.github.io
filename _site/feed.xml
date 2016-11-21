@@ -5,9 +5,134 @@
     <description>All about Xamarin and dotnet</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Jun 2016 21:10:45 +0200</pubDate>
-    <lastBuildDate>Wed, 08 Jun 2016 21:10:45 +0200</lastBuildDate>
+    <pubDate>Mon, 21 Nov 2016 18:33:13 +0100</pubDate>
+    <lastBuildDate>Mon, 21 Nov 2016 18:33:13 +0100</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      
+      <item>
+        <title>Azuer Search With Powershell</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt;zure Search is one of the newer kids in the Azure growing family. You can like any other Azure item, interact with it directly from the Azure portal. As you need to do frequent changes in the start of a project or just want to be able to automatically setup your datasource, index and indexes, the portal becomes less usefull. Luckily Azure Search provides a REST API we can easily interact with. 
+&lt;/p&gt;
+
+&lt;h3 id=&quot;a-basic-azure-search-setup&quot;&gt;A basic Azure Search setup&lt;/h3&gt;
+&lt;p&gt;The scope for this post will be a setup where data from an Azure hosted SQL Database will be exposed by an Index in Azure Search. To do this we need 3 parts, a &lt;strong&gt;datasource&lt;/strong&gt;, an &lt;strong&gt;index&lt;/strong&gt; and an &lt;strong&gt;indexer&lt;/strong&gt;. The datasource is our SQL database, the index contains the data to expose and the indexer is the “scheduler” to add data to the index.
+As mentioned Azure Search provides a REST API. To use the API you need to provide an &lt;strong&gt;admin&lt;/strong&gt; key, not a &lt;strong&gt;query&lt;/strong&gt; key, this key will be part of each request to authenticate.&lt;/p&gt;
+
+&lt;h3 id=&quot;first-step-create-a-datasource&quot;&gt;First step, Create A datasource&lt;/h3&gt;
+&lt;p&gt;The first thing we need is a datasource. Here we use Azure Sql Server and one thing you need to think about is how you want to detect changes. Azure Search support a soft-delete approach and “Sql Server Integrated Change Tracking policy”. We’ll use the latter to have items removed from the index, when they are removed from the SQL Server. You need to ensure this is enabled on the SQL Server &lt;strong&gt;BEFORE&lt;/strong&gt; you create the datasource in Azure Search.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$dbBody&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;s1&quot;&gt;&#39;
+{
+    &quot;name&quot;: &#39;&lt;/span&gt;peopleDb&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;description&quot;: &#39;&lt;/span&gt;people index db&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;type&quot;: &#39;&lt;/span&gt;azuresql&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;credentials&quot;: {&quot;connectionString&quot;:&#39;&lt;/span&gt;YOUR SQL Connection&lt;span class=&quot;s1&quot;&gt;&#39;},
+    &quot;container&quot;: {name:&#39;&lt;/span&gt;Employees&lt;span class=&quot;s1&quot;&gt;&#39;},
+    &quot;dataChangeDetectionPolicy&quot;:{ &quot;@odata.type&quot;: &#39;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy&#39;}   &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;s1&quot;&gt;&#39;@
+
+$url = &quot;https://company.search.windows.net/datasources?api-version=2015-02-28&quot;
+
+$headers = @{ &quot;api-key&quot; = &quot;YOUR AZURE SEARCH API KEY&quot;}
+
+&amp;amp; Invoke-WebRequest  -Method POST -Uri $url -Body $dbBody -ContentType &quot;application/json&quot; -Headers $headers&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Starting from the top, we first define the body of the request. it contains:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;name&lt;/strong&gt; the database name.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;description&lt;/strong&gt; A textual description of the index.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;type&lt;/strong&gt; database type.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;creadentials&lt;/strong&gt; the connectionstring to the database.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;container&lt;/strong&gt; the table we want to index.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;dataChangeDetectionPolicy&lt;/strong&gt; how we want to handle updates.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Next we define the &lt;strong&gt;URL&lt;/strong&gt;, where &lt;strong&gt;&lt;em&gt;company&lt;/em&gt;&lt;/strong&gt; is the name of our Azure Search endpoint. The keyword in the url is &lt;strong&gt;datasources&lt;/strong&gt; and also important is the &lt;strong&gt;api-version&lt;/strong&gt;. The value is taken directly from the Azure documentation, it might change in the future.&lt;/p&gt;
+
+&lt;p&gt;As mentioned we need an API key for all requests. This must be included as a header in the request, see the &lt;strong&gt;$headers&lt;/strong&gt; in the script above.&lt;/p&gt;
+
+&lt;p&gt;Finally we execute the request as &lt;strong&gt;POST&lt;/strong&gt; and define the ContentType as &lt;strong&gt;application/json&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;second-step-create-the-index&quot;&gt;Second step, Create the Index&lt;/h3&gt;
+&lt;p&gt;The index we create will make use of the &lt;strong&gt;container&lt;/strong&gt; we created above. We need to define which fields in the database should be retrieved, searchable, filterable and facetable by the index and also which field is the &lt;strong&gt;Key&lt;/strong&gt;. We kan make the same set as before this time, we just target the &lt;strong&gt;index&lt;/strong&gt; of the REST API.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$body&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;s1&quot;&gt;&#39;
+{
+    &quot;name&quot;:&#39;&lt;/span&gt;employeeIdx&lt;span class=&quot;s1&quot;&gt;&#39;,  
+    &quot;fields&quot;:
+    [
+        {&quot;name&quot;:&#39;&lt;/span&gt;Id&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;type&quot;:&#39;&lt;/span&gt;Edm.String&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;key&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;searchable&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;sortable&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;facetable&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;},
+        {&quot;name&quot;:&#39;&lt;/span&gt;Firstname&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;type&quot;:&#39;&lt;/span&gt;Edm.String&lt;span class=&quot;s1&quot;&gt;&#39;},
+        {&quot;name&quot;:&#39;&lt;/span&gt;Department&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;type&quot;:&#39;&lt;/span&gt;Edm.String&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;filterable&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;sortable&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;,&quot;facetable&quot;:&#39;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;}
+        ]          
+}
+&#39;&lt;/span&gt;@
+
+&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://company.search.windows.net/indexes?api-version=2015-02-28&quot;&lt;/span&gt;
+
+&amp;amp; Invoke-WebRequest  -Method Post -Uri &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; -Body &lt;span class=&quot;nv&quot;&gt;$body&lt;/span&gt; -ContentType &lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt; -Headers &lt;span class=&quot;nv&quot;&gt;$headers&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You might notice that I omitted the api-key field setup. This is because all of this will be executed in the same script in the real world.&lt;/p&gt;
+
+&lt;h3 id=&quot;third-step-create-the-indexer&quot;&gt;third step, Create the indexer&lt;/h3&gt;
+&lt;p&gt;The third and final step is creating the indexer, a bit name confusing. The indexer is the part of Azure Search which schedules how often our &lt;strong&gt;index&lt;/strong&gt; will be updated from the datasource.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$indexerBody&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;s1&quot;&gt;&#39;
+{
+    &quot;name&quot;: &#39;&lt;/span&gt;employeeindexer&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;description&quot;: &#39;&lt;/span&gt;indexer &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;the index employeeIdx. Runs every 5 minute&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;dataSourceName&quot;: &#39;&lt;/span&gt;peopleDb&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;targetIndexName&quot;: &#39;&lt;/span&gt;employeeIdx&lt;span class=&quot;s1&quot;&gt;&#39;,
+    &quot;schedule&quot;: {&quot;interval&quot;: &#39;&lt;/span&gt;PT5M&lt;span class=&quot;s1&quot;&gt;&#39;, &quot;startTime&quot;:&#39;&lt;/span&gt;2016-10-11T00:00:00Z&lt;span class=&quot;s1&quot;&gt;&#39;}
+    }
+&#39;&lt;/span&gt;@
+
+&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://company.search.windows.net/indexers?api-version=2015-02-28&quot;&lt;/span&gt;
+
+&amp;amp; Invoke-WebRequest  -Method Post -Uri &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; -Body &lt;span class=&quot;nv&quot;&gt;$indexerBody&lt;/span&gt; -ContentType &lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt; -Headers &lt;span class=&quot;nv&quot;&gt;$headers&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This time the target is &lt;strong&gt;indexers&lt;/strong&gt;. Besides specifying the datasource and target index, we also specify the schedule. Here we specify it as &lt;strong&gt;interval&lt;/strong&gt; with a frequency of every 5 min, and a starttime.&lt;/p&gt;
+
+&lt;h3 id=&quot;build-and-tear-down-your-indexes&quot;&gt;build and tear down your indexes&lt;/h3&gt;
+&lt;p&gt;With the script above you are able to fast and consistenly creating indexes and also persisting the script in your version control. One of the reasons I moved into powershell was because I wanted a faster development cycle and this also means I need to be able to tear down my datasource, index and indexer again to make changed and then create it all over and over.&lt;/p&gt;
+
+&lt;p&gt;This part is just as easy as the above, a compact edition looks like the following.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span class=&quot;c1&quot;&gt;#remove indexer&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://compNY.search.windows.net/indexers/employeeindexer?api-version=2015-02-28&quot;&lt;/span&gt;
+&amp;amp; Invoke-WebRequest  -Method DELETE -Uri &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; -ContentType &lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt; -Headers &lt;span class=&quot;nv&quot;&gt;$headers&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;#remove index&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://company.search.windows.net/indexes/employeeIdx?api-version=2015-02-28&quot;&lt;/span&gt;
+&amp;amp; Invoke-WebRequest  -Method DELETE -Uri &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; -ContentType &lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt; -Headers &lt;span class=&quot;nv&quot;&gt;$headers&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;#remove datasource&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://company.search.windows.net/datasources/peopleDb?api-version=2015-02-28&quot;&lt;/span&gt;
+&amp;amp; Invoke-WebRequest  -Method DELETE -Uri &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; -ContentType &lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt; -Headers &lt;span class=&quot;nv&quot;&gt;$headers&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This time the name of the indexer, index and datasource is specified as &lt;strong&gt;&lt;em&gt;part of the URL&lt;/em&gt;&lt;/strong&gt; and the Request method is specified as &lt;strong&gt;DELETE&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;With these scripts you are able to build and tead down the basic elements in Azure Search easily.&lt;/p&gt;
+
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt;zure Search is one of the newer kids in the Azure growing family. You can like any other Azure item, interact with it directly from the Azure portal. As you need to do frequent changes in the start of a project or just want to be able to automatically setup your datasource, index and indexes, the portal becomes less usefull. Luckily Azure Search provides a REST API we can easily interact with. 
+&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Mon, 21 Nov 2016 00:00:00 +0100</pubDate>
+        <link>http://rasmustc.com/blog/Azure-Search-With-Powershell/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/Azure-Search-With-Powershell/</guid>
+        
+        
+      </item>
+      
     
       
       <item>
@@ -845,82 +970,6 @@ I’ve defined some local namespaces to seperate the components, and added the c
         <pubDate>Fri, 04 Mar 2016 00:00:00 +0100</pubDate>
         <link>http://rasmustc.com/blog/Infinite-ListView-Scrolling-With-Behaviors/</link>
         <guid isPermaLink="true">http://rasmustc.com/blog/Infinite-ListView-Scrolling-With-Behaviors/</guid>
-        
-        
-      </item>
-      
-    
-      
-      <item>
-        <title>CI With VSTS And Bitbucket</title>
-        <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS. 
-&lt;/p&gt;
-
-&lt;p&gt;In the previous blog &lt;a href=&quot;http://rasmustc.com/blog/Continuous-Integration-With-VSTS-And-Xamarin/&quot;&gt;post&lt;/a&gt; I described how to make a basic CI setup with VSTS using a repository hosted in VSTS.
-Bitbucket is a very popular source code repository, unfortunately not a default choice in VSTS, like GitHub etc. In this post I’ll show the steps required
-to make Bitbucket work as repository. This post will use some of the concepts described in my previous blog post.
-The build will also run on a local build agent, VSO agent.&lt;/p&gt;
-
-&lt;h3 id=&quot;making-a-repository&quot;&gt;Making a repository&lt;/h3&gt;
-&lt;p&gt;The first step is to make a repository at Bitbucket and make an initial commit. When the commit is made, copy the &lt;strong&gt;https&lt;/strong&gt; url of the repository.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;://&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rasmuschristensen@bitbucket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rasmuschristensen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nearby&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;vsts-bitbucket-service-endpoint&quot;&gt;VSTS Bitbucket Service endpoint&lt;/h3&gt;
-&lt;p&gt;Because there is no default hook in VSTS to support Bitbucket, we need to create it as &lt;strong&gt;external git&lt;/strong&gt;.
-Navigate to the collection settings for your project, by selecting the ‘gears’ icon in the upper right corner of your project.
-Select the &lt;strong&gt;Services&lt;/strong&gt; tab and click the &lt;strong&gt;New Service Endpoint&lt;/strong&gt;. From the menu select &lt;strong&gt;External Git&lt;/strong&gt;.
-A dialog is displayed. Add a &lt;strong&gt;Connection name&lt;/strong&gt;, this is just your identification of the service endpoint.
-The &lt;strong&gt;Server Url&lt;/strong&gt; is the fully qualified url we copied from the Bitbucket homepage. As we used &lt;strong&gt;https&lt;/strong&gt; username and password is the ones you use 
-for regular https usage of the repository.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/bitbucketserviceendpoint.png&quot; alt=&quot;serviceendpoint&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;vsts-permissions&quot;&gt;VSTS permissions&lt;/h3&gt;
-&lt;p&gt;VSTS build needs some permissions to use this external git, during a build process.
-Navigate to the &lt;strong&gt;Default collection&lt;/strong&gt; a level above your corrent project and select the &lt;strong&gt;Security&lt;/strong&gt; tab. Locate &lt;strong&gt;Project Collection Build Administrators&lt;/strong&gt; and ensure &lt;strong&gt;Edit Collection-level information&lt;/strong&gt; is set to &lt;strong&gt;Allow&lt;/strong&gt;.
-If not you’ll get an error during the build process.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/buildpermissions.png&quot; alt=&quot;buildpermissions&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;adding-a-build-definition&quot;&gt;Adding a build definition&lt;/h3&gt;
-&lt;p&gt;Navigate to your VSTS project again and select the &lt;strong&gt;Build&lt;/strong&gt; tab. Click the &lt;strong&gt;+&lt;/strong&gt; to create a new build definition.
-I’m using the Xamarin.iOS. From the template select &lt;strong&gt;Remote git repository&lt;/strong&gt; (note the name difference :)).
-Once created, you can now edit the details.&lt;/p&gt;
-
-&lt;p&gt;From the &lt;strong&gt;Build&lt;/strong&gt; menu item of the build definition, add the relative path to the solution, sln file.
-&lt;em&gt;(hint: If you get this one wrong, you can use the build console output, to see the fully qualified path, and easy correct it afterwards)&lt;/em&gt;.
-Next you need to select the &lt;strong&gt;Repository&lt;/strong&gt; menu item. The &lt;strong&gt;Repository type&lt;/strong&gt; should already be set to &lt;strong&gt;external git&lt;/strong&gt; (not remote :)). Refresh the &lt;strong&gt;Connection&lt;/strong&gt; and select
-the Bitbucket service endpoint we created earlier, leave the &lt;strong&gt;Repository name&lt;/strong&gt; blank. The service endpoint is already fully qualified. Save the build definition.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/bitbucketgit.png&quot; alt=&quot;bitbucketgit&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;update-vso-agent&quot;&gt;Update VSO-agent&lt;/h3&gt;
-&lt;p&gt;Ensure to update your VSO build agent. I used a previous version and had issues with username and password for the external git, not being passed along to the 
-build agent, causing the build to fail (see this &lt;a href=&quot;https://github.com/Microsoft/vso-agent/issues/183&quot;&gt;issue&lt;/a&gt;). Updating an existing agent is the same as installing a new one. Navigate to the agents directory where the package.json is located and 
-execute the following command.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;n&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;skSL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;://&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aka&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xplatagent&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bash&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;lets-build&quot;&gt;Let’s build!&lt;/h3&gt;
-&lt;p&gt;When all steps are completed, ensure the VSO agent is running and queue a new build. (&lt;em&gt;Note, if you are build a Xamarin project, you need a business license.&lt;/em&gt;)
-When the build starts, a console is displayed inside the browser where you can follow all steps along the build process. If the sln path is incorrect, this is also where you can see the current resolved path.&lt;/p&gt;
-
-&lt;p&gt;After a couple of permission errors as described above and incorrect sln path, the result should be this, a green build&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/buildsucceeded.png&quot; alt=&quot;build succeeded&quot; /&gt;&lt;/p&gt;
-</description>
-        
-          <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;H&lt;/span&gt;ow to make Continuous Integration with Bitbucket and VSTS, when Bitbucket is not a default service inside VSTS. 
-&lt;/p&gt;
-
-</description>
-        
-        <pubDate>Fri, 26 Feb 2016 00:00:00 +0100</pubDate>
-        <link>http://rasmustc.com/blog/CI-VSTS-Bitbucket-And-Xamarin/</link>
-        <guid isPermaLink="true">http://rasmustc.com/blog/CI-VSTS-Bitbucket-And-Xamarin/</guid>
         
         
       </item>
