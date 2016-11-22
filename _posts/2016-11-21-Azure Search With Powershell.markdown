@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Azuer Search With Powershell"
+title:  "Azure Search With Powershell"
 description:  "How to use Azure Search from Powershell"
 date:   2016-11-21
 ---
