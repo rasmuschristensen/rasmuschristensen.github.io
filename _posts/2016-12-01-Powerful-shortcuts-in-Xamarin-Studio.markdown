@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Powerful shortcuts in Xamarin Studio"
+title:  "Shortcuts in Xamarin Studio"
 description:  "Powerful shortcuts for Xaml and file navigation"
 date:   2016-12-01
 ---
