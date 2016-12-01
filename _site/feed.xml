@@ -5,13 +5,52 @@
     <description>All about Xamarin and dotnet</description>
     <link>http://rasmustc.com/</link>
     <atom:link href="http://rasmustc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 21 Nov 2016 20:50:14 +0100</pubDate>
-    <lastBuildDate>Mon, 21 Nov 2016 20:50:14 +0100</lastBuildDate>
+    <pubDate>Thu, 01 Dec 2016 08:31:25 +0100</pubDate>
+    <lastBuildDate>Thu, 01 Dec 2016 08:31:25 +0100</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       
       <item>
-        <title>Azuer Search With Powershell</title>
+        <title>Powerful shortcuts in Xamarin Studio</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;X&lt;/span&gt;amarin Studio is a great IDE for working with Xamarin technologies. With a Windows and Visual Studio background the IDE can be a bit confusing regarding shortcuts. Here are some of the shortcuts I find very useful. 
+&lt;/p&gt;
+
+&lt;h2 id=&quot;toggle-between-xaml--code-behiend&quot;&gt;Toggle between XAML &amp;amp; code behiend&lt;/h2&gt;
+&lt;p&gt;When using Xamarin Forms, you often work in a XAML file and from time to time need to navigate to its code behiend C# file or vice versa.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CTRL + CMD + Arrow Up&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;easy-openfile--window-navigation&quot;&gt;Easy openfile &amp;amp; window navigation&lt;/h2&gt;
+&lt;p&gt;When you open the openfile/window dialog in Xamarin Studio &lt;strong&gt;ALT + TAB&lt;/strong&gt; its by default not easy to use the arrow keys to jump between the files.&lt;/p&gt;
+
+&lt;p&gt;If you release the TAB key and press&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CTRL + TAB -&amp;gt; CTRL + CMD + Arrow key(s)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;you can now jump easily between the files in the dialog&lt;/p&gt;
+
+&lt;p&gt;I’ll keep this post updated when I find new shortcuts.&lt;/p&gt;
+
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+&lt;span class=&quot;dropcap&quot;&gt;X&lt;/span&gt;amarin Studio is a great IDE for working with Xamarin technologies. With a Windows and Visual Studio background the IDE can be a bit confusing regarding shortcuts. Here are some of the shortcuts I find very useful. 
+&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Thu, 01 Dec 2016 00:00:00 +0100</pubDate>
+        <link>http://rasmustc.com/blog/Powerful-shorts-in-Xamarin-Studio/</link>
+        <guid isPermaLink="true">http://rasmustc.com/blog/Powerful-shorts-in-Xamarin-Studio/</guid>
+        
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Azure Search With Powershell</title>
         <description>&lt;p class=&quot;intro&quot;&gt;
 &lt;span class=&quot;dropcap&quot;&gt;A&lt;/span&gt;zure Search is one of the newer kids in the Azure growing family. You can like any other Azure item, interact with it directly from the Azure portal. As you need to do frequent changes in the start of a project or just want to be able to automatically setup your datasource, index and indexes, the portal becomes less usefull. Luckily Azure Search provides a REST API we can easily interact with. 
 &lt;/p&gt;
@@ -862,114 +901,6 @@ For a functional demo, watch the video at the bottom of this post or checkout th
         <pubDate>Mon, 21 Mar 2016 00:00:00 +0100</pubDate>
         <link>http://rasmustc.com/blog/Image-Gallery-With-Xamarin-Forms/</link>
         <guid isPermaLink="true">http://rasmustc.com/blog/Image-Gallery-With-Xamarin-Forms/</guid>
-        
-        
-      </item>
-      
-    
-      
-      <item>
-        <title>Infinite ListView scrolling with behaviors and XAML</title>
-        <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;S&lt;/span&gt;crolling a ListView with behaviors makes your code clean and reuseable.
-&lt;/p&gt;
-
-&lt;p&gt;By default Xamarin Forms support scrolling and making infinite scrolling by using events. If you like me are developing with the MVVM mindset, 
-events can become a bit messy when everything else is handled by comamnds. Let’s take advantage of &lt;strong&gt;Behaviors&lt;/strong&gt; and see how we can turn events into a command driven code style.&lt;/p&gt;
-
-&lt;h3 id=&quot;the-beer-order-app&quot;&gt;The beer order app&lt;/h3&gt;
-&lt;p&gt;We’ll create an app to list beer orders. All orders will have a created date, and this is the key to our listing. We’ll make the app display
-the orders in decending order by the created date with the newest on top. As a best practics data should always be loaded in batches to reduce newwork traffic and load. The app will load 20 items per page, meaning when we scroll to the bottom, we will load the next 20 orders by the created date. 
-The app will load data from an inapp store, but can easily be replaced with your own external storage.&lt;/p&gt;
-
-&lt;p&gt;The source code is available &lt;a href=&quot;https://github.com/rasmuschristensen/SimpleListViewInfiniteScrolling&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The final app will work like the video below, in a mix of refresh and scrolling. The page title indicates the number of items currently loaded. 
-&lt;img src=&quot;/assets/img/infinitebrew.gif&quot; alt=&quot;appvideo&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;from-event-to-behavior&quot;&gt;From event to behavior&lt;/h3&gt;
-&lt;p&gt;The ListView exposes the event &lt;strong&gt;ItemAppearing&lt;/strong&gt; each time an item in the ListView becomes visible. What we need to do is check whether the item is the last visible item in the ListView. In our app we have no unique identifier to page from, instead we want to page by the date of the orders.&lt;/p&gt;
-
-&lt;p&gt;First we create a class &lt;strong&gt;ListViewPagningBehavior&lt;/strong&gt; which inherits the generic Behavior with the type of our ListView as the type, __Behavior&lt;listview&gt;__. We will override the methods __OnAttachedTo__ and __OnDetachingFrom__ as the entry point to subscribe and unsubscribe the events we&#39;ll listen to.&lt;/listview&gt;&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;OnAttachedTo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ListView&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;			
-    &lt;span class=&quot;k&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;OnAttachedTo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;AssociatedObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BindingContextChanged&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OnBindingContextChanged&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ItemAppearing&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OnItemAppearing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;OnDetachingFrom&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ListView&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;OnDetachingFrom&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BindingContextChanged&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OnBindingContextChanged&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;bindable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ItemAppearing&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OnItemAppearing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;AssociatedObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Besides the &lt;strong&gt;OnItemAppearing&lt;/strong&gt; event, we also listen to the change of binding context.&lt;/p&gt;
-
-&lt;h3 id=&quot;time-to-do-paging&quot;&gt;Time to do paging&lt;/h3&gt;
-&lt;p&gt;Each time a new item appears in the ListView, the following method will be executed.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;OnItemAppearing&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ItemVisibilityEventArgs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;		
-    &lt;span class=&quot;c1&quot;&gt;// sanity checks hidden - see the github repository
-&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Convert&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;CanExecute&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;       
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Note the &lt;strong&gt;Command&lt;/strong&gt; introduced here. It’s defined and exposed by our behavior. This way when we can use the behavior from a XAML view and bind to the &lt;strong&gt;ICommand&lt;/strong&gt;, we want to handle the specific action. The comamnd is exposed from the behavior this way.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BindableProperty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommandProperty&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BindableProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Create&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ICommand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ListViewPagningBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ICommand&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ICommand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GetValue&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CommandProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SetValue&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CommandProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;type-conversion&quot;&gt;Type conversion&lt;/h3&gt;
-&lt;p&gt;As the command is type specific and our behavior is not, we need to add a &lt;strong&gt;value converter&lt;/strong&gt; to handle the conversion. It’s exposed from the behavior the same way as the command.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BindableProperty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;InputConverterProperty&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BindableProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Create&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IValueConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ListViewPagningBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The converter itself is pretty straight forward and for this purpose we don’t need to implement &lt;strong&gt;ConvertBack&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ItemVisibilityEventArgstemConverter&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IValueConverter&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Convert&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;targetType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CultureInfo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;culture&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eventArgs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ItemVisibilityEventArgs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eventArgs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;xaml-glue&quot;&gt;XAML glue&lt;/h3&gt;
-&lt;p&gt;With the behavior in place, it’s time to wire it all up in XAML. 
-I’ve defined some local namespaces to seperate the components, and added the converter as a StaticResource.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/xamlbehavior.png&quot; alt=&quot;xamlbehavior&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The source code is available &lt;a href=&quot;https://github.com/rasmuschristensen/SimpleListViewInfiniteScrolling&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/infinitebrew.gif&quot; alt=&quot;appvideo&quot; /&gt;&lt;/p&gt;
-</description>
-        
-          <description>&lt;p class=&quot;intro&quot;&gt;
-&lt;span class=&quot;dropcap&quot;&gt;S&lt;/span&gt;crolling a ListView with behaviors makes your code clean and reuseable.
-&lt;/p&gt;
-
-</description>
-        
-        <pubDate>Fri, 04 Mar 2016 00:00:00 +0100</pubDate>
-        <link>http://rasmustc.com/blog/Infinite-ListView-Scrolling-With-Behaviors/</link>
-        <guid isPermaLink="true">http://rasmustc.com/blog/Infinite-ListView-Scrolling-With-Behaviors/</guid>
         
         
       </item>
